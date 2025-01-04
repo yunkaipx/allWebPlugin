@@ -1,13 +1,13 @@
 # allWebPlugin中间件
 allWebPlugin中间件是一款为用户提供安全、可靠、便捷的浏览器插件服务的中间件产品。将第三方（标准协议ActiveX）插件直接无缝嵌入谷歌、Edge、火狐等浏览器，实现ActiveX插件加载、接口调用、事件回调等中间件产品，产品拥有自主知识产权。产品具有支持多浏览器、多操作系统、ActiveX、NPAPI标准协议控件的特点，并且调用接口友好、集成方便，为用户提供“Web系统 + allWebPlugin + 插件 + 多浏览器”的解决方案。
-#产品特点
+##产品特点
 1、自创定位算法，实现插件与页面布局无缝衔接，极致用户体验。
 2、自创插件接口调用方法，保持原汁原味的接口调用及事件响应方式，轻松实现OA系统升级改造。
 3、支持同一页面或不同页面同时加载多个插件，适应各种复杂应用场景。
 4、自主创新、安全可控，不受浏览器插件技术限制，支持更多浏览器（谷歌、火狐、Edge、360浏览器等）。
 5、创新沙箱机制,隔离插件与浏览器运行环境，增强插件与浏览器稳定性和安全性。
 6、攻克诸多技术难点，实现插件不修改、不注册也能使用，极大的降低插件开发量和维护量。
-#集成步骤
+##集成步骤
 ​第一步：为了页面集成插件，需要引入allWebPlugin.Common.js allWebPlugin.UI.j及allWebPlugin.Main.js文件。如下图所示：
 <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
 <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
