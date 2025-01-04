@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<allWebPlugin>
+	<public>
+		<version>2.0.28.0</version>
+		<sslurl></sslurl>
+	</public>
+    <web>
+        <port>6651</port>
+		<sslport>6652</sslport>
+        <webpath>./web</webpath>
+		<whitelist>local.zsignyun.com;local.uof3.com</whitelist>
+    </web>
+	<pluginCntrs>
+		<pluginCntr progid="PluginContainer" path="./PluginContainer" cmd="" />
+		<pluginCntr progid="PluginContainerX64" path="./bin64/PluginContainer" cmd="" />
+	</pluginCntrs>
+	<Plugins>
+	</Plugins>
+</allWebPlugin>

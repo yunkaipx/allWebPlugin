@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>allWebPlugin + VLC ActiveX中间件示例程序</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<script type="text/javascript" src="./js/allWebPlugin.Common.v2.0.0.28.js"></script>
+	<script type="text/javascript" src="./js/allWebPlugin.UI.v2.0.0.28.js"></script>
+	<script type="text/javascript" src="./js/allWebPlugin.Main.v2.0.0.28.js"></script>
+	<script language="javascript">
+	var itemId;  // 播放列表中播放节目的id
+	var vlcSound; // vlc音量大小（初始化默认为50）
+	var videoLength; // 视频总时长
+	var then_time; // 播放开始时间(播放开始的日期，看下面实现代码，它是毫秒哦)
+	var isPlaying = 0; // 是否播放状态 （0 未播放 1 播放）		
+	
+	function MediaPlayerStopped() {
+		var pluginUtilityObj = awp_getPluginUtility();
+		if (pluginUtilityObj)
+			pluginUtilityObj.ShowMessage("MediaPlayerStopped！");
+	}
+
+	function InitVlcPlugin(vlc,url) {
+		if (vlc != null) {
+			vlc.MRL = url;//"http://vd2.bdstatic.com/mda-mi1dd05gmhwejdwn/sc/cae_h264/1630576203346678103/mda-mi1dd05gmhwejdwn.mp4";
+			vlc.AutoPlay = true;
+			vlc.volume = 50;
+
+			var playlist = vlc.playlist();
+			if (playlist) {
+				var video_url = url;//"http://vd2.bdstatic.com/mda-mi1dd05gmhwejdwn/sc/cae_h264/1630576203346678103/mda-mi1dd05gmhwejdwn.mp4";
+				var options = ":rtsp-udp";
+				var itemId = playlist.add(video_url, "", options); //.add(vedio_url);
+				playlist.playItem(itemId);
+				playlist.play();
+			}
+			
+			var audio = vlc.audio();
+			if (audio == null) {
+				return;
+			}
+			audio.volume = 10;
+			audio.toggleMute();
+		}
+	}
+	
+	function init() {
+		var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+		var installPackageVersion = "2.0.0.28";	
+		if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+			awp_CreatePlugin("vlcPlugin0","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
+			awp_CreatePlugin("vlcPlugin1","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
+			awp_CreatePlugin("vlcPlugin2","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
+			awp_CreatePlugin("vlcPlugin3","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
+			InitVlcPlugin(vlcPlugin0,"http://vd2.bdstatic.com/mda-mhhf5mr00yyhpfjs/1080p/cae_h264/1629284581057661229/mda-mhhf5mr00yyhpfjs.mp4");
+			InitVlcPlugin(vlcPlugin1,"http://vd2.bdstatic.com/mda-mhig1c3sw223mx8p/1080p/cae_h264/1629380139191731149/mda-mhig1c3sw223mx8p.mp4");
+			InitVlcPlugin(vlcPlugin2,"http://vd2.bdstatic.com/mda-mi1dd05gmhwejdwn/sc/cae_h264/1630576203346678103/mda-mi1dd05gmhwejdwn.mp4");
+			InitVlcPlugin(vlcPlugin3,"http://vd2.bdstatic.com/mda-mesdm11tdp69a9ye/1080p/cae_h264/1622115758783335310/mda-mesdm11tdp69a9ye.mp4");
+		}
+	}
+	</script>
+</head>
+
+<body onload="init()" style="overflow-y:auto;overflow-x:auto">
+	<div style="width: 100vw;display: flex;justify-content: space-around;flex-wrap: wrap;gap: 5px;">
+		<canvas id="vlcPlugin0" style="background: #000;" width="550" height="450" >
+			<p class="error">Sorry, It looks as though your browser does not support the
+				canvas tag.</p>
+		</canvas>
+		<canvas id="vlcPlugin1"  style="background: #000;" width="550" height="450">
+			<p class="error">Sorry, It looks as though your browser does not support the
+				canvas tag.</p>
+		</canvas>
+		<canvas id="vlcPlugin2" style="background: #000;" width="550" height="450">
+			<p class="error">Sorry, It looks as though your browser does not support the
+				canvas tag.</p>
+		</canvas>
+		<canvas id="vlcPlugin3" style="background: #000;" width="550" height="450">
+			<p class="error">Sorry, It looks as though your browser does not support the
+				canvas tag.</p>
+		</canvas>
+	</div>
+</body>
+
+</html>

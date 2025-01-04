@@ -1,0 +1,301 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>allWebPlugin + SuwellReader 中间件示例程序</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=9" />
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
+ <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
+ <script type="text/javascript">
+	
+ </script>
+ <script language="javascript">
+			
+function OpenLocalFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("pdf文件(*.pdf);;ofd文件(*.ofd);;所有文件(*.*)").then(function(data){
+		console.log(data);
+		if(data != "")
+		{	suwellReader.openFile_Asyn(data,false).then(function(blOpen){
+				alert("OpenLocalFile :" + blOpen);
+			});
+		}
+	});
+}
+
+function EnabledCanvas(blEnabled){
+	hostCnt.UI.EnabledCanvas(blEnabled);
+}
+
+function SaveAs(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;ofd文件(*.ofd);;所有文件(*.*)").then(function(varFile){
+		suwellReader.saveFile_Asyn(varFile,false).then(function(blSave){
+				alert("SaveAs :" + blSave);
+			});
+	});
+}
+
+function closeFile(){
+	if(suwellReader)
+	{
+		suwellReader.closeFile();
+	}
+}
+
+
+function PrintOut(){
+	if(suwellReader)
+	{
+		suwellReader.performClick("f_print");
+	}
+}
+
+function setZoomRadio(fZoom){
+	suwellReader.setZoomRadio(fZoom);
+}
+
+function viewSealsign(blVisible){
+	
+	suwellReader.setCompsiteVisible("t_sealsign",blVisible);
+}
+
+//是否显示工具栏
+function viewTool(blVisible){
+	suwellReader.setCompsiteVisible("toolbar",blVisible);
+}
+
+//是否显示菜单
+function viewMenu(blVisible){
+	suwellReader.setCompsiteVisible("menu",blVisible);
+}
+
+//是否显示左侧导航栏
+function viewNavigator(blVisible){
+	suwellReader.setCompsiteVisible("navigator",blVisible);
+}
+//菜单栏是否可用
+function enablemenu(blEnabled){
+	suwellReader.setCompsiteEnable("menu",blEnabled);
+}
+
+function getPageCount(){
+	alert("总页数: " + suwellReader.getPageCount());
+}
+
+function getDocInfo(){
+	alert("文档信息: " + suwellReader.getDocInfo());
+}
+
+function getDocumentText(){
+	var text = suwellReader.getDocumentText();
+	text = text.length > 256 ? text.substr(0,256) : text;
+	alert("文档文本: " + text);
+}
+
+function LoadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	//docx文件(*.docx);;excel文件(*.xlsx)
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		if (httpclientObj.Open(0, "https://www.gov.cn/gzdt/att/att/site1/20100917/0019b90463ff0dfd641102.pdf", false)) {
+			httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+                    httpclientObj.ResponseSaveToFile(varFile);
+					
+					alert("LoadFile Status:" + httpclientObj.GetStatus());
+                }
+				else{
+					alert("LoadFile Status:" + httpclientObj.GetStatus());
+				}
+				httpclientObj.Close();
+			});	
+        }
+	});
+}
+
+function UploadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		httpclientObj.AddFile("test.pdf",varFile);
+		if (httpclientObj.Open(1, "http://127.0.0.1:6651/upload", false)) {
+			httpclientObj.Send().then(function(data){
+				alert("UploadFile Status:" + httpclientObj.GetStatus());
+				httpclientObj.Close();
+			});	
+        }
+	});
+}
+
+function GetTempFileName(){
+		var pluginUtilityObj = awp_getPluginUtility();
+		alert(pluginUtilityObj.GetTempFileName("D:\\","all"));
+}
+
+function GetTempPath(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	alert(pluginUtilityObj.GetTempPath());
+}
+
+
+function CreateDirectory(){
+		var pluginUtilityObj = awp_getPluginUtility();
+		alert(pluginUtilityObj.CreateDirectory("D:\\allWebPlugin"));
+}
+
+function DeleteFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.DeleteFile("D:\\1.png"));
+	}
+}
+
+function ClearDirectory(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	alert(pluginUtilityObj.ClearDirectory("D:\\allWebPlugin"));
+}
+
+function GetFileSize(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	alert("D:\\1.png 文件大小为: " + pluginUtilityObj.GetFileSize("D:\\1.png"));
+}
+
+function FilePathExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	alert(pluginUtilityObj.FilePathExists("D:\\1.png"));
+}
+
+function DirectoryExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	alert(pluginUtilityObj.DirectoryExists("D:\\allWebPlugin"));
+}
+
+function signal_openfile(p0){
+		alert("signal_openfile :" + p0);
+}
+
+function signal_listener(p_cmd,p_info, p_bAfter){
+		alert("signal_listener :" + p_cmd + " ,p_info: " + p_info + "p_bAfter: " + p_bAfter);
+}
+ 
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("suwellReader","{C7F277DC-6C47-AB2C-FB6A-070DC8BE7533}");
+	}
+}
+ </script>
+</head>
+<body onload="init()" style="overflow-y:hidden;overflow-x:hidden">
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td><span>　allWebPlugin + suwellReader</span>中间件示例程序</td></tr></table></td></tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2" >
+  <table id="functionBox" border="0">
+    <tr>
+     <td  id="showTD" width="204px" height="30px"  valign="top">
+     
+       <table id="functionTable"   cellspacing='4' cellpadding='0'  >    
+        <tr  id="disPlayNone"><td height="30px" class="tableFather" >功能列表　　　　<span>&lt;</span></td></tr>
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档常用功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档功能 -->
+					<tr><td class="dot-size"><a onclick="OpenLocalFile()">打开本地文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SaveAs()">另存为</a></td></tr>
+					<tr><td class="dot-size"><a onclick="getDocumentText()">文本内容</a></td></tr>
+					<tr><td class="dot-size"><a onclick="getPageCount()">总页数</a></td></tr>	
+					<tr><td class="dot-size"><a onclick="getDocInfo()">文档信息</a></td></tr>
+					<tr><td class="dot-size"><a onclick="PrintOut()">打印</a></td></tr>			
+					<tr><td class="dot-size"><a onclick="closeFile()">关闭文档</a></td></tr>		
+				 </table><!--END 文档功能 -->
+		   </div>
+		  </td></tr>
+			
+			<tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  界面UI操作 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+					   		<tr><td class="dot-size"><a onclick="setZoomRadio(100);">正常显示</a></td></tr>
+							<tr><td class="dot-size"><a onclick="setZoomRadio(200);">200%显示</a></td></tr>		
+							<tr><td class="dot-size"><a onclick="suwellReader.performClick('v_fullscreen');">全屏</a></td></tr>	
+							<tr><td class="dot-size"><a onclick="viewSealsign(true)">显示签章</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewSealsign(false)">隐藏签章</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewTool(true)">显示工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewTool(false)">隐藏工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewMenu(true)">显示菜单</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewMenu(false)">隐藏菜单</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewNavigator(true)">显示左侧导航</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewNavigator(false)">隐藏左侧导航</a></td></tr>	
+							<tr><td class="dot-size"><a onclick="enablemenu(true)">菜单栏可用</a></td></tr>
+							<tr><td class="dot-size"><a onclick="enablemenu(false)">菜单栏不可用</a></td></tr>
+					    </table>
+		  </div>
+		  </td></tr>
+		  
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  文件操作功能 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="GetTempFileName()">临时文件名称</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetTempPath()">系统临时目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="CreateDirectory()">创建文件夹</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DeleteFile()">删除文件</a></td></tr>
+							<tr><td class="dot-size"><a onclick="ClearDirectory()">删除目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetFileSize()">获取文件大小</a></td></tr>
+							<tr><td class="dot-size"><a onclick="FilePathExists()">文件是否存在</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DirectoryExists()">目录是否存在</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+		  
+		  <tr class="test"><td valign="middle" class="tableFather">
+		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  网络通信功能 　　<span>+</span></td></tr></table>
+	      <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="LoadFile()">文件下载</a></td></tr>
+							<tr><td class="dot-size"><a onclick="UploadFile()">文件上传</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+
+		  <tr><td>&nbsp;</td></tr>     
+       </table>
+
+     </td>
+     
+     <td id="activeBox">
+       <table id="activeTable" >
+        <tr>
+        <td valign="top"  border="1">
+            	<canvas id="suwellReader" width="1024" height="600">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+        </TD>
+		</script>
+	</td>
+		</tr>
+	   </table>  
+     </td>
+    </tr>
+  </table>
+ </td></tr>
+ <!-- end showList -->
+  
+ <!-- footer -->
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	QQ：78418227   微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <!-- end footer --> 
+</table>
+</body> 
+</html>

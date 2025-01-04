@@ -1,0 +1,333 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>allWebPlugin + 福昕OFD版式阅读器 中间件示例程序</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=9" />
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
+ <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
+ <script type="text/javascript">
+	
+ </script>
+ <script language="javascript">
+function OpenLocalFile(){
+	foxitReader.performOpenFile();
+}
+
+function EnabledCanvas(blEnabled){
+	hostCnt.UI.EnabledCanvas(blEnabled);
+}
+
+function SaveAs(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;ofd文件(*.ofd);;所有文件(*.*)").then(function(varFile){
+		pluginUtilityObj.ShowMessage("saveas:" + foxitReader.saveFile(varFile,false),"allWebPlugin")
+	});
+}
+
+function closeFile(){
+	if(foxitReader)
+	{
+		foxitReader.closeFile();
+	}
+}
+
+function getCurrentPageIndex(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.ShowMessage("页码: " + foxitReader.getCurrentPageIndex(),"allWebPlugin");
+}
+
+function gotoPage(iIndex){
+	foxitReader.gotoPage(iIndex);
+}
+
+function PrintOut(){
+	if(foxitReader)
+	{
+		foxitReader.printFile("",false,true);
+	}
+}
+
+function setZoomRadio(fZoom){
+	foxitReader.setZoomRadio(fZoom);
+}
+
+function viewSealsign(blVisible){
+	
+	foxitReader.setCompositeVisible("sign",blVisible);
+	foxitReader.setCompositeVisible("verify",blVisible);
+}
+
+function addWatermark(){
+	foxitReader.addTextWaterMark("测试","1",100.1,100.1,"宋体",16,255,0,0,1);
+}
+
+function getPageCount(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.ShowMessage("总页数: " + foxitReader.getPageCount(),"allWebPlugin");
+}
+
+function getDocumentText(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	var text = foxitReader.exportText();
+	text = text.length > 256 ? text.substr(0,256) : text;
+	pluginUtilityObj.ShowMessage("文档文本: " + text,"allWebPlugin");
+}
+
+function getPluginVersion(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	var version = foxitReader.getPluginVersion();
+	pluginUtilityObj.ShowMessage("ver: " + version,"allWebPlugin");
+}
+
+function CountSigns(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	var count = foxitReader.CountSigns();
+	pluginUtilityObj.ShowMessage("sign count: " + count,"allWebPlugin");
+}
+
+function LoadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	//docx文件(*.docx);;excel文件(*.xlsx)
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		if (httpclientObj.Open(0, "https://www.gov.cn/gzdt/att/att/site1/20100917/0019b90463ff0dfd641102.pdf", false)) {
+			httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+                    httpclientObj.ResponseSaveToFile(varFile);
+					
+					pluginUtilityObj.ShowMessage("LoadFile Status:" + httpclientObj.GetStatus(),"allWebPlugin");
+                }
+				else{
+					pluginUtilityObj.ShowMessage("LoadFile Status:" + httpclientObj.GetStatus(),"allWebPlugin");
+				}
+				httpclientObj.Close();
+			});	
+        }
+	});
+}
+
+function UploadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		httpclientObj.AddFile("test.pdf",varFile);
+		if (httpclientObj.Open(1, "http://127.0.0.1:6651/upload", false)) {
+			httpclientObj.Send().then(function(data){
+				pluginUtilityObj.ShowMessage("UploadFile Status:" + httpclientObj.GetStatus(),"allWebPlugin");
+				httpclientObj.Close();
+			});	
+        }
+	});
+}
+
+function GetTempFileName(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.GetTempFileName("D:\\","all"),"allwebplugin");
+	}
+}
+
+function GetTempPath(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.GetTempPath(),"allwebplugin");
+	}
+}
+
+
+function CreateDirectory(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.CreateDirectory("D:\\allWebPlugin"),"allwebplugin");
+	}
+}
+
+function DeleteFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.DeleteFile("D:\\1.png"),"allwebplugin");
+	}
+}
+
+function ClearDirectory(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.ClearDirectory("D:\\allWebPlugin"),"allwebplugin");
+	}
+}
+
+function GetFileSize(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage("D:\\1.png 文件大小为: " + pluginUtilityObj.GetFileSize("D:\\1.png"),"allwebplugin");
+	}
+}
+
+function FilePathExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.FilePathExists("D:\\1.png"),"allwebplugin");
+	}
+}
+
+function DirectoryExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage(pluginUtilityObj.DirectoryExists("D:\\allWebPlugin"),"allwebplugin");
+	}
+}
+
+function OnOpenFile(error){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage("OnOpenFile: " + error,"allwebplugin");
+	}
+}
+
+function OnOpenfilePath(res){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage("OnOpenfilePath: " + res,"allwebplugin");
+	}
+}
+
+function OnPrintStatus(error){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		pluginUtilityObj.ShowMessage("OnPrintStatus: " + error,"allwebplugin");
+	}
+}
+ 
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("foxitReader","{9A9F603B-51A8-4630-AE99-4BBF01675575}");
+	}
+}
+ </script>
+</head>
+<body onload="init()" style="overflow-y:hidden;overflow-x:hidden">
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td><span>　allWebPlugin + 福昕OFD版式阅读器 </span> 中间件示例程序</td></tr></table></td></tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2" >
+  <table id="functionBox" border="0">
+    <tr>
+     <td  id="showTD" width="204px" height="30px"  valign="top">
+     
+       <table id="functionTable"   cellspacing='4' cellpadding='0'  >    
+        <tr  id="disPlayNone"><td height="30px" class="tableFather" >功能列表　　　　<span>&lt;</span></td></tr>
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档常用功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档功能 -->
+					<tr><td class="dot-size"><a onclick="OpenLocalFile()">打开本地文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SaveAs()">另存为</a></td></tr>
+					<tr><td class="dot-size"><a onclick="getDocumentText()">文本内容</a></td></tr>
+					<tr><td class="dot-size"><a onclick="CountSigns()">签章数量</a></td></tr>
+					<tr><td class="dot-size"><a onclick="foxitReader.verifyAll(0)">签章验证</a></td></tr>
+					<tr><td class="dot-size"><a onclick="getCurrentPageIndex()">获取页码</a></td></tr>
+					<tr><td class="dot-size"><a onclick="gotoPage(0)">首页</a></td></tr>
+					<tr><td class="dot-size"><a onclick="getPageCount()">总页数</a></td></tr>
+					<tr><td class="dot-size"><a onclick="PrintOut()">打印</a></td></tr>	
+					<tr><td class="dot-size"><a onclick="addWatermark()">添加水印</a></td></tr>
+					
+				
+					<tr><td class="dot-size"><a onclick="getPluginVersion()">获取版本</a></td></tr>	
+					<tr><td class="dot-size"><a onclick="closeFile()">关闭文档</a></td></tr>		
+				 </table><!--END 文档功能 -->
+		   </div>
+		  </td></tr>
+			
+			<tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  界面UI操作 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+					   		<tr><td class="dot-size"><a onclick="setZoomRadio('100');">正常显示</a></td></tr>
+							<tr><td class="dot-size"><a onclick="setZoomRadio('200');">200%显示</a></td></tr>		
+							<tr><td class="dot-size"><a onclick="viewSealsign(1)">显示签章</a></td></tr>
+							<tr><td class="dot-size"><a onclick="viewSealsign(0)">隐藏签章</a></td></tr>
+							<tr><td class="dot-size"><a onclick="foxitReader.showToolbar(1);">显示工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="foxitReader.showToolbar(0);">隐藏工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="foxitReader.HidePanels(1);">隐藏左侧栏</a></td></tr>
+							<tr><td class="dot-size"><a onclick="foxitReader.HidePanels(0);">显示左侧栏</a></td></tr>
+					    </table>
+		  </div>
+		  </td></tr>
+		  
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  文件操作功能 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="GetTempFileName()">临时文件名称</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetTempPath()">系统临时目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="CreateDirectory()">创建文件夹</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DeleteFile()">删除文件</a></td></tr>
+							<tr><td class="dot-size"><a onclick="ClearDirectory()">删除目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetFileSize()">获取文件大小</a></td></tr>
+							<tr><td class="dot-size"><a onclick="FilePathExists()">文件是否存在</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DirectoryExists()">目录是否存在</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+		  
+		  <tr class="test"><td valign="middle" class="tableFather">
+		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  网络通信功能 　　<span>+</span></td></tr></table>
+	      <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="LoadFile()">文件下载</a></td></tr>
+							<tr><td class="dot-size"><a onclick="UploadFile()">文件上传</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+
+		  <tr><td>&nbsp;</td></tr>     
+       </table>
+
+     </td>
+     
+     <td id="activeBox">
+       <table id="activeTable" >
+        <tr>
+        <td valign="top"  border="1">
+            	<canvas id="foxitReader" width="1024" height="600">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+        </TD>
+		</script>
+	</td>
+		</tr>
+	   </table>  
+     </td>
+    </tr>
+  </table>
+ </td></tr>
+ <!-- end showList -->
+  
+ <!-- footer -->
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <!-- end footer --> 
+</table>
+</body> 
+</html>

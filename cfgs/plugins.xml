@@ -1,0 +1,7 @@
+<allWebPlugin>
+<Plugins>
+<plugin progID="allWebDesktop.Ctrl" clsID="{c8a21e7f-d127-445d-af66-cfd3c8d1b765}" typeLib="{ee222337-ed88-4577-93bf-0f7a16426a46}" path="allWebDesktopAx.dll" />
+<plugin progID="DSComposerPlayerActiveXCtrl" clsID="{410B702D-FCFC-46B7-A954-E876C84AE4C0}" typeLib="{C6E5311F-BEB6-4B2B-BCF7-8A8D9ED49935}" path="ComposerPlayer\ComposerPlayerActiveX.ocx" />
+<plugin progID="iWebPDF.PDFReader" clsID="{39E08D82-C8AC-4934-BE07-F6E816FD47A1}" typeLib="{56D5F3FB-843C-4587-B648-F4CA5DEFBCC3}" path="iWebPDF.ocx" />
+</Plugins>
+</allWebPlugin>

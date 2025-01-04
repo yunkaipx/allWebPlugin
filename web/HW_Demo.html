@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>汉王手写签批测试页面</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style type="text/css">
+        .style1
+        {
+            font-size: xx-large;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style2
+        {
+            font-size: 16px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style3
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #000000;
+        }
+		.style4
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF0000;
+        }
+   </style>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+<script language="javascript" type="text/javascript">
+
+ var penwidth = 3;
+ var obj;
+window.onload = function(){              
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("HWPenSign","{E8F5278C-0C72-4561-8F7E-CCBC3E48C2E3}");
+		obj = awp_getPluginById("HWPenSign");
+		obj.HWSetBkColor(0xE0F8E0);  
+		obj.HWSetCtlFrame(2, 0x000000);
+	}
+}
+			
+function Button1_onclick() {
+  res = obj.HWInitialize();
+}
+
+function Button2_onclick() {
+   var stream;
+   stream = obj.HWFinalize();
+}
+
+
+function Button3_onclick() {
+   obj.HWClearPenSign();
+}
+
+function Button6_onclick() {
+   obj.HWSetPenColor(0x000000);   
+}
+
+function Button7_onclick() {
+   obj.HWSetPenColor(0xFF0000);   
+}
+
+function Button8_onclick() {
+   obj.HWSetPenColor(0x00FF00);   
+}
+
+function Button9_onclick() {
+   obj.HWSetPenColor(0x0000FF);   
+}
+
+function Button10_onclick() {
+    penwidth++;
+    if(penwidth >5)
+       penwidth = 5;
+    obj.HWSetPenWidth(penwidth);   
+}
+
+function Button11_onclick() {
+    penwidth--;
+    if(penwidth < 1)
+       penwidth = 1;
+    obj.HWSetPenWidth(penwidth);   
+}
+
+function Button12_onclick() {
+   obj.HWSetPenMode(1);
+}
+
+function Button13_onclick() {
+   obj.HWSetPenMode(0);
+}
+
+function Button14_onclick() {
+   var stream;
+   stream = obj.HWGetBase64Stream(2);
+   alert(stream);
+}
+   
+function Button15_onclick() {
+   obj.HWSetFilePath("e:\\sign.jpg"); 
+   obj.HWSaveFile();
+}
+
+function signComplete() {
+    Button14_onclick();
+}
+
+function signRestart() {
+     ;         
+}
+
+</script>
+
+</head>
+<body>
+    <p align="center"><b><span class="style1">汉王手写签批控件Demo</span><br class="style1" /></p>
+    <p style="margin-left: 40px"><b><span class="style2">Demo使用说明</span>:</p>
+    <p style="margin-left: 40px"><span class="style3"> (1) &quot;初始化设备&quot; ：打开设备，汉王手写板进入签字模式。 因为对设备是独占式的访问，所以在重新进行&quot;初始化设备&quot;动作之前，必须确保已经&quot;关闭设备&quot;。对应接口函数为HWInitialize()。<br /><br />(2) &quot;关闭设备&quot;：关闭设备，汉王手写板进入待机模式。对应接口函数为HWFinalize()。</span></p>
+    <p style="margin-left: 40px"><span class="style3">(3) &quot;重新签名&quot;: 清空手写控件界面及汉王手写板上的笔迹。对应接口函数为HWClearPenSign()。<br /><br />(4) &quot;笔宽加粗&quot;/&quot;笔宽减细&quot;：调整画笔的粗细，支持5级设置，默认为3级。对应接口函数为HWSetPenWidth()。<br /><br />(5) &quot;画笔颜色&quot;：设置画笔的颜色。默认为黑色。对应接口函数为HWSetPenColor()。<br><br>(6)&quot;压力笔&quot;/&quot;钢笔&quot;：&quot;压力笔&quot;模式下，笔迹会随着压感发生粗细变化。&quot;钢笔&quot;模式下，笔迹粗细不变。对应接口函数为HWSetPenMode()。</span></p>
+    <p style="margin-left: 40px"><span class="style3">(7)&quot;保存图像&quot;: 将图像保存至指定路径，对应接口函数为HWSaveFile()。调用此函数之前，请先调用HWSetFilePath()设置保存路径。支持图像格式为:bmp /jpg /png /gif。<br><br>(8)&quot;Base64Stream&quot;: 支持将图像转化为Base64数据流，以便于网络间的传输。</span></p>
+    <p style="margin-left: 40px"><span class="style3">各接口函数的参数和返回值详情，请查阅“汉王手写签批控件接口文档.doc”。</span></p>
+    <p style="margin-left: 40px"><br 
+            class="style1" />           		
+      <b>
+    </p>
+    <table width="90%" border="0" align="center" cellpadding="3" cellspacing="0">           
+       <tr class="style7">
+	   <td width="30%" vAlign="center" height="217" align="right">
+               <P>
+			       签字区域：            
+               </P>
+	   </td>  
+           <td  align="left">
+              <!--object id="HWPenSign"
+                    name="HWPenSign"
+                    classid="clsid:E8F5278C-0C72-4561-8F7E-CCBC3E48C2E3"
+                    width="600"
+                    height="300">
+              </object-->
+				<canvas id="HWPenSign" width="600" height="300">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+	   </td>
+       </tr>                       
+    </table>
+    <p>&nbsp;
+</p> 
+    <p>&nbsp;
+</p>
+    <p style="margin-left: 500px">
+          签名控制： 
+          <input id = "button1" type ="button" value="初始化设备" onclick ="return Button1_onclick()" />
+                &nbsp;&nbsp;
+          <input id = "button2" type ="button" value="关闭设备" onclick ="return Button2_onclick()" />
+                &nbsp;&nbsp; 
+          <input id="Button3" type="button" value="重新签名" onclick="return Button3_onclick()" />
+                <br><br> 
+          画笔控制：
+	  <input id="Button6" type="button" value="黑色" onclick="return Button6_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button7" type="button" value="红色" onclick="return Button7_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button8" type="button" value="绿色" onclick="return Button8_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button9" type="button" value="蓝色" onclick="return Button9_onclick()" />
+		<br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+          <input id="Button10" type="button" value="笔宽加粗" onclick="return Button10_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button11" type="button" value="笔宽减细" onclick="return Button11_onclick()" /> 
+                 <br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+          <input id="Button12" type="button" value="压力笔" onclick="return Button12_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button13" type="button" value="钢笔" onclick="return Button13_onclick()" />
+                <br><br>
+            签名图像:
+          &nbsp;&nbsp;<input id="Button14" type="button" value="Base64Stream" onclick="return Button14_onclick()" />
+          &nbsp;&nbsp;&nbsp;
+          <input id="Button15" type="button" value="保存图像" onclick="return Button15_onclick()" /> 
+          &nbsp;&nbsp;
+                <br><br>      
+         
+    </p>
+</body>
+</html>
+       
+        

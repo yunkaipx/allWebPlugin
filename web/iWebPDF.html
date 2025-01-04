@@ -1,0 +1,210 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>金格科技-iWebPDF在线管理中间件示例程序</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=9" />
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <link rel='stylesheet' type='text/css' href='css/iWebProduct.css' />
+  <script type="text/javascript">
+	var url = 'http://demo.kinggrid.com:80/iWebPDF2018.jsp.mysql/';
+	var mRecordID = '1712543408607'
+	var mIsExsitRId = true
+ </script>
+  <script type="text/javascript">
+ $(function(){
+    var isNotLoad = true;/**公共方法**/	
+	$(".tableAll").click(function(){
+        if(isNotLoad){
+            isNotLoad = false;	 
+			  var noneY = $(this).next().css("display");
+			  $(".tableAll").next().css("display","none");
+			  $(".tableAll").find('td:eq(0)').css({'background-color':'#E6DBEC'});
+			  $(".tableAll").find('span:eq(0)').html('+');
+				  if( noneY== 'none'){
+					  var s = $(this).find('td:eq(0)').html();                
+					  $(this).find('td:eq(0)').html(s.replace("+", "-")) ;                              
+					  $(this).find('td:eq(0)').css({'background-color':'#FFFFFF'});
+		              $(this).next().slideToggle(function(){isNotLoad = true;});
+				  }else{
+					  isNotLoad = true;
+				  }
+            }
+	});
+	var hide = false;	//下拉
+	$("#disPlayNone").click(function(){
+		 if(hide){
+			 $('#showTD').width('204px');
+			 $(this).siblings().css("display", "")
+			 hide = false;
+		 }else{	
+			 $('#showTD').width('25px');
+			 $(this).siblings().css("display", "none")
+			 hide = true;
+		 }
+		 if(g_allWebPlugin.ActivateContainer)
+		 {
+			g_allWebPlugin.ActivateContainer.UI.onUpdatePosition(1);
+		 }
+	});		
+})
+</script>
+ <script language="javascript">
+var nClick = 1;//鼠标点击次数
+var ToolBarId;
+var MenuId;
+
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("iWebPDF","{39E08D82-C8AC-4934-BE07-F6E816FD47A1}");
+	}
+}
+  
+  function onWindowSize(){
+   document.getElementById('activeBox').style.height = document.documentElement.clientHeight- 140 +"px";
+   document.getElementById('activeTable').style.height = getHeight('activeBox')- 15  +"px";
+   document.getElementById('iWebPDF').style.height = getHeight('activeTd') +"px";
+  
+   var functionTableLength = getHeight('showTD')-document.getElementById("functionTable").rows.length*32
+    for(var i =0;i < 2;i++){
+		var item = "readT"+i;
+		console.log(item);
+        var readivLength = document.getElementById(item).rows.length*30;
+	    if(readivLength < functionTableLength){
+	      document.getElementById(item).style.height =  readivLength+ 8 + "px";
+	      document.getElementById(item).style.height =  readivLength+ 8 + "px";
+	    }else{
+	      document.getElementById(item).style.height =  functionTableLength + 5 + "px";
+	    }
+    }
+	if(g_allWebPlugin.ActivateContainer)
+	 {
+		g_allWebPlugin.ActivateContainer.UI.onUpdatePosition(1);
+	 }
+	
+  }
+  //获取id的高度
+  function  getHeight(id){
+    return document.getElementById(id).offsetHeight; 
+  }
+ //状态信息
+	function addState(value){
+		$("#state").html(value);	
+	}
+
+function OpenLocalFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("pdf文件(*.pdf)").then(function(data){
+		console.log(data);
+		if(data != "")
+			iWebPDF.WebOpenLocalFile(data); 
+	});
+}
+
+function Close(){
+	if(iWebPDF)
+		iWebPDF.WebClose();
+}
+
+function SaveAs(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;ofd文件(*.ofd);;所有文件(*.*)").then(function(varFile){
+		if(varFile!="")
+			pluginUtilityObj.ShowMessage("saveas ret:" + iWebPDF.WebSaveLocalFile(varFile),"allWebPlugin")
+	});
+}
+
+ </script>
+</head>
+<body onload="init()" onresize="onWindowSize()"  style="overflow-y:hidden;overflow-x:hidden">
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td ><img src="css/logo.jpg"/></td><td><span>　iWebPDF</span> 在线管理中间件示例程序</td></tr></table></td></tr> 
+ <tr><td height="34px" class="title" width="80%">
+    <span>主题： PDF演示主题202404081030</span>
+	<span style="margin-left: 50px;">作者：体验用户05</span>
+ </td>
+ <td class="title"><span><a href="#" id="saveFile">保存文档</a></span><span><a href="#" onclick="window.location.href='DocumentList.jsp'">返回列表</a></span></td>
+ </tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2" >
+  <table id="functionBox" border="0">
+    <tr>
+     <td  id="showTD" width="204px" height="30px"  valign="top">
+     
+       <table id="functionTable"   cellspacing='4' cellpadding='0'  >    
+        <tr  id="disPlayNone"><td height="30px" class="tableFather" >功能列表　　　　&lt;</td></tr>
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档阅读功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档阅读功能子菜单 -->
+					<tr><td class="dot-size"><a href="#" onclick="OpenLocalFile()" >打开本地文档</a></td></tr>
+					<tr><td class="dot-size"><a href="#" onclick="Close()"  >关闭文档</a></td></tr>
+					<tr><td class="dot-size"><a href="#" onclick="SaveAs()">保存本地文档</a></td></tr>			
+				 </table><!--END 文档阅读功能子菜单 -->
+		   </div>
+		  </td></tr>
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 界面控制功能　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowSigns=1">显示签章工具栏</a></td></tr>
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowSigns=0">隐藏签章工具栏</a></td></tr>		
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowMarks=1">显示书签树</a></td></tr>
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowMarks=0">隐藏书签树</a></td></tr>	
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowState=1">显示状态栏</a></td></tr>
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowState=0">隐藏状态栏</a></td></tr>
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowSides=1">显示侧边栏</a></td></tr>
+							<tr><td class="dot-size"><a href="#" onclick="if(iWebPDF) iWebPDF.ShowSides=0">隐藏侧边栏</a></td></tr>								
+					    </table><!--END 文档控制功能子菜单 -->
+		  </div>
+		  </td></tr>	  
+		  <tr><td>&nbsp;</td></tr>     
+        	<tr>
+					<td style="border: 0">&nbsp;
+					<form id="iWebPDF2"   method="post" action="DocumentSave.jsp" onSubmit="return SaveDocument();">
+                     <input type="hidden" id="RecordID" name="RecordID" value="1712543408607"/>
+                  	 <input type="hidden" id="Subject" name="Subject" value="PDF演示主题202404081030"/>
+                	 <input type="hidden" id="Author" name="Author" value="体验用户05"/>
+                 	 <input type="hidden" id="FileDate" name="FileDate" value="2024-04-08 10:30:08"/>
+                     <input type="hidden" id="FileType" name="FileType" value="PDF"/>
+                     <input type="hidden" id="HTMLPath" name="HTMLPath" value=""/>
+                   </form></td>
+		  </tr>
+       </table>
+
+     </td>
+     
+     <td id="activeBox">
+       <table id="activeTable" >
+        <tr>
+	<td colspan="2" id="activeTd">
+		<canvas id="iWebPDF" width="600px" height="600px">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+		</canvas></td> 
+		</script>
+	</td>
+		</tr>
+
+	    <tr>
+			<td height="10px" align="left" class="statue">状态：<span id="state"></span></td>
+			<td align="right"  style="time">时间：2024-04-08 10:30:08</td>
+		</tr>
+	   </table>  
+     </td>
+    </tr>
+  </table>
+ </td></tr>
+ <!-- end showList -->
+  
+ <!-- footer -->
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">江西金格科技股份有限公司 版权所有</td></tr></table></td></tr>
+ <!-- end footer --> 
+</table>
+</body> 
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>allWebPlugin 中间件演示 V2.0</title>
+     <style>
+        table {
+				margin-top: 1%;
+				margin-left: 10%;
+				margin-right: 10%;
+				width: 80%;
+				border-collapse: collapse; /* 删除表格之间的间隔 */
+        }
+        th, td {
+            border: 1px solid #ddd; /* 表格的边框 */
+            padding: 8px; /* 单元格的内边距 */
+        }
+        th {
+            background-color: #f2f2f2; /* 表头背景色 */
+            color: #333; /* 表头字体颜色 */
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* 偶数行背景色 */
+        }
+		
+		.image-container {
+		  position: relative;
+		  display: inline-block; /* 或者其他适合的布局方式 */
+		}
+		 
+		.image-container img {
+		  width: 100%; /* 根据需要调整宽度 */
+		}
+		.image-container .caption {
+		  position: absolute;
+		  bottom: 20;
+		  width: 100%;
+		  text-align: center;
+		  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+		  color: white;
+		  padding: 0px; /* 内边距 */
+		}
+    </style>
+</head>
+<body>
+<table >
+ <caption style="line-height:2;"><strong>allWebPlugin中间件V2.0 演示&nbsp&nbsp&nbsp</strong><font style="font-size: 12px;height: 16px;">
+  作者：郭云开
+</font></caption>
+<tr style="border:1px solid #ddd;margin:0px;">		
+<td colspan="3" style="border:1px solid #ddd;padding: 0px;">
+<table style="margin-top: 0;
+				margin-left: 0;
+				margin-right: 0;
+				border-collapse: collapse;
+				width: 100%;
+				height:100%">
+<tr style="border: 0px solid #ddd; padding: 0px;">
+<td style="border:0px solid #ddd; padding-left: 15px">
+<strong style="color: red; letter-spacing:1px;font-size: 16px;">allWebPlugin中间件作为首个浏览器加载ActiveX插件利器,具有六大核心优势。</strong><p style="line-height:0.2;">
+<strong style="color: black; letter-spacing:2px; font-size: 14px;">1、自创定位算法，实现插件与页面布局无缝衔接，极致用户体验。</strong><p style="line-height:0.5;">
+<strong style="color: black;letter-spacing:2px;font-size: 14px;">2、自创插件接口调用方法，保持原汁原味的接口调用及事件响应方式，轻松实现OA系统升级改造。</strong><p style="line-height:0.5;">
+<strong style="color: black;letter-spacing:2px;font-size: 14px;">3、支持同一页面或不同页面同时加载多个插件，适应各种复杂应用场景。</strong><p style="line-height:0.5;">
+<strong style="color: black;letter-spacing:2px;font-size: 14px;">4、自主创新、安全可控，不受浏览器插件技术限制，支持更多浏览器（谷歌、火狐、Edge、360浏览器等）。</strong><p style="line-height:0.5;">
+<strong style="color: black;letter-spacing:2px;font-size: 14px;">5、创新沙箱机制,隔离插件与浏览器运行环境，增强插件与浏览器稳定性和安全性。</strong><p style="line-height:0.5;">
+<strong style="color: black;letter-spacing:2px;font-size: 14px;">6、攻克诸多技术难点，实现插件不修改、不注册也能使用，极大的降低插件开发量和维护量。</strong>
+
+</td>
+<td style="border:0px solid #ddd;padding: 0px;">
+<div class="image-container">
+  <img src="css\allWebPlugin.png" style="width:125px;height:125px">
+  <div class="caption"><font size="1">扫码咨询</font></div>
+</div>
+</br></br>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+	<th>插件实例</th>
+	<th>链接地址</th>
+	<th>备注说明</th>
+</tr>	
+<tr>
+<td>allWebOffice插件标签页展示</td>
+<td><a href="allWebOffice_tab.html" target="_blank">allWebOffice_多Tab标签</a></td>
+<td>自带演示实例,实现同一页面支持多个插件,请使用WPS专业版办公软件（<font style="color: red">不注册加载ActiveX示例</font>）。</td>
+</tr>
+<tr>
+<td>allWebOffice插件</td>
+<td><a href="allWebOffice.html" target="_blank">allWebOffice</a></td>
+<td>自带演示实例，支持在线打开和编辑Office、WPS办公文档（<font style="color: red">不注册加载ActiveX示例</font>）</td>
+</tr>
+<tr>
+<td>allWebOffice插件 iframe嵌套</td>
+<td><a href="allWebOffice_frame.html" target="_blank">allWebOffice_iframe嵌套</a></td>
+<td>自带演示实例，实现iframe页面嵌套，支持在线打开和编辑Office、WPS办公文档（<font style="color: red">不注册加载ActiveX示例</font>）</td>
+</tr>
+
+<tr>
+<td>VLC视频播放插件</td>
+<td><a href="vlc.html" target="_blank">VLC ActiveX</a></td>
+<td>需要安装32位或64位VLC插件,<a href="http://www.videolan.org/vlc" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<td>VLC视频播放插件4插件同时播放</td>
+<td><a href="vlc_mutil.html" target="_blank">VLC 4 插件同时播放</a></td>
+<td>需要安装32位或64位VLC插件,<a href="http://www.videolan.org/vlc" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<tr>
+<td>福昕OFD版式办公套件</td>
+<td><a href="FoxitOFDReader.html" target="_blank">福昕OFD版式办公套件</a></td>
+<td>需要安装福昕OFD版式办公套件</td>
+</tr>
+<tr>
+<td>数科阅读器</td>
+<td><a href="suwellreader.html" target="_blank">数科阅读器</a></td>
+<td>需要安装专业版数科阅读器</td>
+</tr>
+<td>Adobe Acro PDF 插件</td>
+<td><a href="AcroPDFCtrl.html" target="_blank">AcroPDFCtrl</a></td>
+<td>需要安装Adobe Acro PDF插件</td>
+</tr>
+<tr>
+<td>金格iWebOffice2015插件</td>
+<td><a href="iWebOffice2015.html" target="_blank">iWebOffice2015</a></td>
+<td>需要安装iWebOffice2015插件,<a href="http://demo.kinggrid.com/iWebOffice2015/DocumentList.jsp" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<td>金格iWebPDF2018插件</td>
+<td><a href="iWebPDF2018.html" target="_blank">iWebPDF2018</a></td>
+<td>需要安装iWebPDF2018插件,<a href="http://demo.kinggrid.com/iWebPDF2018.jsp.mysql/DocumentList.jsp" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<td>金格iWebPDF插件</td>
+<td><a href="iWebPDF.html" target="_blank">iWebPDF</a></td>
+<td>在线查看PDF文档（<font style="color: red">不注册加载ActiveX示例</font>）</a></td>
+</tr>
+<tr>
+<td>allWebDestop 演示Demo</td>
+<td><a href="allWebDesktop.html" target="_blank">allWebDestop 演示Demo</a></td>
+<td>自带演示实例，在浏览器中使用本机程序打开文档（<font style="color: red">不注册加载ActiveX示例</font>）</a></td>
+</tr>
+<tr>
+<td>汉王手写签批Demo</td>
+<td><a href="HW_Demo.html" target="_blank">汉王手写签批Demo</a></td>
+<td>需要汉王手写签批插件,<a href="https://www.hw99.com/" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<td>JT2Go V10 演示Demo</td>
+<td><a href="JT2GoDemo.html" target="_blank">JT2Go V10演示Demo</a></td>
+<td>在线查看jt文件，需要下载JT2Go V10版本,<a href="https://www.filehorse.com/download-jt2go/42052/" target="_blank">立即下载</a></td>
+</tr>
+<tr>
+<td>SolidWorks Composer Player 3D演示Demo</td>
+<td><a href="SolidWorksDemo.html" target="_blank">SolidWorks Composer Play 3D 演示Demo</a></td>
+<td>在线查看3D文档，需要下载SolidWorks Composer Player</td>
+</tr>
+</table>
+
+</body>
+</html>

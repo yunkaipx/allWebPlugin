@@ -1,0 +1,962 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+ <title>allWebPlugin + allWebOffice中间件示例程序</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=9" />
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script>   
+ <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
+ <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
+ <script type="text/javascript">
+	
+ </script>
+ <script language="javascript">
+
+var strCustomUI = '<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui"> \
+              <commands> \
+				<command idMso="PrintPreviewClose" onAction="OnActionButton"/> \
+              </commands> \
+            </customUI>';
+var image32 = "b64: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";			
+var image16 = "b64:AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAABAAAORqYAYpLKAF6OwgAauv4AxrquAAJq5gDOzsYAIn7iAAJa1gBylsIAAnbuALK+ygDi2s4AAl7iAAJy5gAarv4AAo76AL6ypgACProA3tbOAAKS+gDKxsIAAmruANbSxgACfvYAAmLWAMbKzgACZuYAmrbKAAJu5gACevIAqsLaAOLe1gACcu4AAka6ABqe/gACfvoADk6yABq+/gDOwrIAAmrqANbOxgACWtoAdqLKAA527gC2ws4A5t7SAAJi4gAatv4AKo7qAMK2pgDSyr4A2tLKAA6C8gACZt4AAmbqAJ62ygACcvIAAkrCABqi/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPDw6Ojo6Ojo6Ojo6Ojo8PDwmMDAPIyMjIzs7DwMmJjw8EBAQCgUbNxYhCh4QEBA8PDw2NjoqLxshIQ0iGTY8PDw8PAglATgLLRwCABI8PDw8PDw8JScpFxczMiU8PDw8PDw8PDwnBhoaFSc8PDw8PDw8PDw8BwcsNQcHPDw8PDw8PDw8PCEdORgKITw8PDw8PDw8PDw8BTkYBTw8PDw8PDw8PDw8PCsfHwk8PDw8PDw8PDw8PDwELgwRPDw8PDw8PDw8PDw8MSATMTw8PDw8PDw8PDw8PDwxMTw8PDw8PDw8PDw8PDw8Dg48PDw8PDw8PDw8PDw8PDw8PDw8PDw8PMADAACAAQAAgAEAAMADAADgBwAA8A8AAPgfAAD4HwAA+B8AAPw/AAD8PwAA/D8AAPw/AAD+fwAA/n8AAP//AAA";
+
+var strCustomUI1 = '<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="OnLoad" loadImage="LoadImage"> \
+					<ribbon startFromScratch="false"> \
+					<tabs> \
+						<tab id="customTab" label="allWebPlugin 中间件"> \
+							<group id="awpGroup" label="allWebPlugin 中间件"  >	\
+								<button id="Button1" label="大图标按钮" size="large" onAction="OnActionButton" getDescription="GetDescription" getEnabled="GetEnabled" getImage="GetImage"/> \
+								<button id="Button2" label="小图标按钮" size="normal"   onAction="OnActionButton" getImage="GetImage" getDescription="GetDescription"  /> \
+								<button id="Button3" label="文本按钮" size="normal"  onAction="OnActionButton" getDescription="GetDescription" /> \
+							</group > \
+						</tab>\
+					</tabs>\
+					</ribbon>\
+					</customUI>';
+function CreateNew(strProgId){
+	if(allWebOfficeAx)
+	{
+		allWebOfficeAx.CreateNew(strProgId);
+		ShowMenuBar(false);
+	}
+}
+
+/* 把文档插入到指定的书签位置 */
+function VBAInsertFile(Bookmark, FileName){
+	if(allWebOfficeAx == null)
+		return;
+	try {
+			var doc = allWebOfficeAx.ActiveDocument();
+			var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+			if(varSaveFormat === undefined){//非word 
+				alert("请打开Word文档");
+				return;
+			}
+			var pluginUtilityObj = awp_getPluginUtility();
+			if(pluginUtilityObj)
+			{
+				if(pluginUtilityObj.FilePathExists(FileName) == false)
+				{
+					alert(FileName + " 不存在");
+					return;
+				}
+			}
+	
+			allWebOfficeAx.Activate(true);
+			if (allWebOfficeAx.ExistBookMark(Bookmark)) {
+				allWebOfficeAx.GotoBookMark(Bookmark);
+			}
+			else{
+				alert(Bookmark + " 书签不存在");
+				return;
+			}
+			allWebOfficeAx.Activate(true);
+			//Application
+			if(allWebOfficeAx.Application() == null)
+			{
+				alert("请先打开文档");
+				return;
+			}
+			var varbookmart = allWebOfficeAx.ActiveDocument().Bookmarks().Item(Bookmark);
+			if(varbookmart !== null || varbookmart !== undefined)
+			{
+				//var Objbookmart = {obj:varbookmart.get_obj()} //提示类型错误
+				allWebOfficeAx.Application().Selection().InsertFile(FileName, null, false, false, true);
+			}
+			return true;
+	} catch (e) {
+		alert(e.message);
+		return;
+	}
+}
+
+/**
+ * 打开在线文件 
+ */
+function openFileFromUrl(){
+	var url = "./test.docx?d=" + new Date().getTime();
+	var fileExt = ".docx";
+	fetch(url).then(function(data){
+		return data.blob();
+	}).then(function(blob){
+		var reader = new FileReader();
+		reader.readAsDataURL(blob);
+		reader.onload = function () {
+			var fileBase64 = reader.result;
+			var index = fileBase64.indexOf(",");
+			var fileContent = fileBase64.substring(index+1);
+			//loadFile(fileContent, fileExt);
+			filePath = new Date().getTime()  + fileExt;
+			allWebOfficeAx.DeleteAfterClose = true;
+			allWebOfficeAx.OpenStream(fileContent,filePath);
+		}
+	});
+}
+
+function OpenLocalFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("docx文件(*.docx;*.doc);;excel文件(*.xls;*.xlsx);;所有文件(*.*)").then(function(varFile){
+		console.log(varFile);
+		if(varFile != "")
+			allWebOfficeAx.Open_Asyn(varFile).then(function(nOpen){
+				ShowMenuBar(false);
+			})
+	});
+}
+
+function EnabledCanvas(blEnabled)
+{
+	g_allWebPlugin.ActivateContainer.UI.EnabledCanvas(blEnabled);
+}
+
+function WebSetFocus()
+{
+	allWebOfficeAx.WebSetFocus(1);
+}
+
+function Close()
+{
+	allWebOfficeAx.Close_Asyn(0).then(function(data){
+		ShowError(data);
+	});
+}
+
+function Save()
+{
+	allWebOfficeAx.Save_Asyn("",0,false).then(function(data){
+		//ShowError(data); 插件内部已经弹框
+	});
+}
+function ShowError(errorCode){
+	switch(errorCode){
+	case 0: alert("成功");break;
+	case 1: alert("文件不存在");break;
+	case 2: alert("未找到CLSID");break;
+	case 3: alert("文档被占用");break;
+	case 4: alert("文档未打开");break;
+	case 5: alert("文档未保存");break;
+	case 6: alert("Office组件没有注册");break;
+	case 7: alert("Office程序正忙");break;
+	case 8: alert("Office进程残留");break;
+	case 9: alert("未找到支持的接口");break;
+	case 10: alert("不支持Office2003保存为docx");break;
+	case 11: alert("权限不够导致Office无法创建文档");break;
+	case 12: alert("当前系统环境异常");break;
+	case 13: alert("文档名称不符合规范");break;
+	case 14: alert("文档拒绝访问，没有权限");break;
+	case 15: alert("文档损坏（不是存储对象）");break;
+	case 16: alert("没有权限");break;
+	default: alert("其他错误");break;
+	}
+}
+
+//作用：VBA套红
+function WebInsertVBA(){
+	//画线
+		try{
+			var doc = allWebOfficeAx.ActiveDocument();
+			var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+			if(varSaveFormat === undefined){//非word 
+				alert("请打开Word文档");
+				return;
+			}		
+			var myRange = allWebOfficeAx.ActiveDocument().Range(0,0);
+			myRange.Select();
+			var mtext="★\n";
+			myRange = allWebOfficeAx.Application().Selection().Range().InsertAfter(mtext);
+			myRange = allWebOfficeAx.ActiveDocument().Paragraphs().Item(1).Range();
+			myRange.ParagraphFormat().LineSpacingRule = 1;//wdLineSpace1pt5
+			myRange.Font().ColorIndex = 6;
+			myRange.ParagraphFormat().Alignment = 1;
+			//------------------------------------------
+			myRange = allWebOfficeAx.ActiveDocument().Range(0,0);
+			myRange.Select();
+			
+			myRange = allWebOfficeAx.Application().Selection().Range();
+			mtext="allWebPlugin 发[２０１２]１５４号\n";
+			myRange.InsertAfter(mtext);
+			
+			myRange = allWebOfficeAx.ActiveDocument().Paragraphs().Item(1).Range();
+			myRange.ParagraphFormat().LineSpacingRule = 1;//wdLineSpace1pt5
+			myRange.ParagraphFormat().Alignment = 1;
+			myRange.Font().ColorIndex = 6;
+			
+			//---------------------------------------
+			myRange = allWebOfficeAx.Application().Selection().Range();
+			mtext="电子政务文件\n";
+			myRange.InsertAfter(mtext);
+			myRange = allWebOfficeAx.ActiveDocument().Paragraphs().Item(1).Range();
+			myRange.ParagraphFormat().LineSpacingRule = 1;//wdLineSpace1pt5
+			myRange.Font().ColorIndex = 6;
+			myRange.Font().Name = "仿宋_GB2312";
+			myRange.Font().Bold = true;
+			myRange.Font().Size = 50;
+			myRange.ParagraphFormat().Alignment = 1;
+			let margin = 70.0001;//浮点数
+			myRange.PageSetup().LeftMargin = margin;
+			myRange.PageSetup().RightMargin = margin;
+			myRange.PageSetup().TopMargin = margin;
+			myRange.PageSetup().BottomMargin = margin;
+
+			allWebOfficeAx.ActiveDocument().Shapes().AddLine(80,182,287,182);
+			allWebOfficeAx.ActiveDocument().Shapes().AddLine(306,182,520,182);
+
+		}catch(e){
+		  alert(e.message);
+		}
+}
+
+/*
+*打开远程大文档
+*/
+function openBigFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	var httpclientObj = awp_getHttpClient();
+	httpclientObj.Clear();
+	//https://www.gov.cn/gzdt/att/att/site1/20100917/0019b90463ff0dfd641102.pdf
+	//https://local.zsignyun.com:6652/test2.docx
+	if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test2.docx", false)) {
+		httpclientObj.Send().then(function(data){
+			if (httpclientObj.GetStatus() == 200) {
+				var varTempPath = pluginUtilityObj.GetTempPath();
+				var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".docx";
+				httpclientObj.ResponseSaveToFile(varFile);
+				allWebOfficeAx.Open(varFile);
+				allWebOfficeAx.DeleteAfterClose = true;
+			}
+			else{
+				var httpStatus = httpclientObj.GetStatus();
+				if(httpclientObj.GetStatus() == 0)
+				{
+					alert("LoadFile test2.docx Error:" + httpclientObj.GetErrorText());
+				}else{
+					alert("LoadFile test2.docx Status:" + httpStatus + ",请确保安装目录下web/doc目录存在test2.docx");
+				}
+			}
+			httpclientObj.Close();
+		});	
+	 }
+}
+
+function openBigFileExcel(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	var httpclientObj = awp_getHttpClient();
+	httpclientObj.Clear();
+	if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test2.xlsx", false)) {
+		httpclientObj.Send().then(function(data){
+			if (httpclientObj.GetStatus() == 200) {
+				var varTempPath = pluginUtilityObj.GetTempPath();
+				var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".xlsx";
+				httpclientObj.ResponseSaveToFile(varFile);
+				allWebOfficeAx.Open(varFile);
+				allWebOfficeAx.DeleteAfterClose = true;
+			}
+			else{
+				var httpStatus = httpclientObj.GetStatus();
+				if(httpclientObj.GetStatus() == 0)
+				{
+					alert("LoadFile test2.xlsx Error:" + httpclientObj.GetErrorText());
+				}else{
+					alert("LoadFile test2.xlsx Status:" + httpStatus + ",请确保安装目录下web/doc目录存在test2.xlsx");
+				}
+			}
+			httpclientObj.Close();
+		});	
+	 }
+}
+
+/*
+*保存远程大文档
+*/
+function remoteSaveBigFile(){
+	var httpclientObj = awp_getHttpClient();
+	var pluginUtilityObj = awp_getPluginUtility();
+	httpclientObj.Clear();
+	var varTempPath = pluginUtilityObj.GetTempPath();
+	var varFile;
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat !== undefined){//word 
+		varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".docx";
+	}
+	else if(doc){
+		varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".xlsx";
+	}else{
+		alert("请先打开文档");
+		return;
+	}
+	var varFileName = varFile.split('/').pop();
+	// 如果是Windows路径，使用反斜杠（\）作为分隔符
+	if (varFile.includes('\\')) {
+		varFileName = varFile.split('\\').pop();
+	}	
+	allWebOfficeAx.Save_Asyn(varFile,0,false).then(function(data){
+		if(data == 0){
+			httpclientObj.AddFile(varFileName,varFile);
+			if (httpclientObj.Open(1, "https://local.zsignyun.com:6652/upload", false)) {
+				httpclientObj.Send().then(function(data){
+				var Status = httpclientObj.GetStatus();
+					if(Status == 200){
+						alert(varFileName + " 上传成功,请在 %APPDATA%\\allWebPlugin 目录下查看。");
+					}
+					else{
+						//
+						var httpStatus = httpclientObj.GetStatus();
+						if(httpclientObj.GetStatus() == 0)
+						{
+							alert(varFileName + " 上传失败,错误码：" + httpclientObj.GetErrorText() + "。");
+						}else{
+							alert(varFileName + " 上传失败,错误码：" + Status + "。");
+						}
+					}
+					httpclientObj.Close();
+				});	
+			}
+		}
+		else{
+			alert(data);
+		}
+	});	
+}
+
+function SaveAsPDF(){
+	allWebOfficeAx.SaveAsPDF_Asyn().then(function(data){
+		//ShowError(data);
+	});
+}
+
+function OpenPrintDlg(){
+	allWebOfficeAx.OpenPrintDlg_Asyn().then(function(data){
+		//alert(data);
+	});
+}
+
+function SaveAs(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalSaveDialog("docx文件(*.docx;*.doc);;excel文件(*.xlsx)").then(function(varFile){
+		allWebOfficeAx.Save_Asyn(varFile,0,false).then(function(data){
+			//ShowError(data);
+		});	
+	});
+}
+
+function PutRibbonCustomUI(){
+	allWebOfficeAx.RibbonCustomUI = strCustomUI1;
+}
+
+function SetRibbonCtrUIEnabled(){
+	allWebOfficeAx.SetRibbonCtrlUI("Button1","image",image32);
+	allWebOfficeAx.SetRibbonCtrlUI("Button1","enabled",true);
+	allWebOfficeAx.SetRibbonCtrlUI("Button2","image",image16);
+	allWebOfficeAx.SetRibbonCtrlUI("Button2","enabled",true);
+	allWebOfficeAx.InvalidateRibbonCtrlUI("Button1");
+	allWebOfficeAx.InvalidateRibbonCtrlUI("Button2");
+}
+
+function ShowToolBar(blVisible){
+	var varDisplayStyle = allWebOfficeAx.GetDisplayStyle();
+	if(varDisplayStyle)
+	{
+		if(varDisplayStyle.ShowToolBar() === blVisible)
+			return;
+		varDisplayStyle.ShowToolBar = blVisible;
+	}
+}
+
+function ShowMenuBar(blVisible){
+	var varDisplayStyle = allWebOfficeAx.GetDisplayStyle();
+	if(varDisplayStyle)
+	{
+		varDisplayStyle.ShowMenuBar = blVisible;
+	}
+}
+
+function AddCustomToolBtn(){
+	var varCustomToolBar = allWebOfficeAx.CustomToolbar();
+	if(varCustomToolBar)
+	{
+		varCustomToolBar.Add(0,"测试1","","测试1",0,-1);
+		varCustomToolBar.Add(1,"测试2","","测试2",0,-1);
+		varCustomToolBar.Add(2,"测试122323232","","测试122323232",0,-1);
+		varCustomToolBar.Add(3,"测试4","","测试4",0,-1);
+		//varCustomToolBar.HoverColor = 0xff00ff;
+	}
+}
+
+function SetCustomToolBtnEnabled(){
+	var varCustomToolBar = allWebOfficeAx.CustomToolbar();
+	if(varCustomToolBar)
+	{
+		varCustomToolBar.SetEnabled("测试1;",false);
+	}
+}
+
+function SetCustomToolBtnVisible(){
+	var varCustomToolBar = allWebOfficeAx.CustomToolbar();
+	if(varCustomToolBar)
+	{
+		varCustomToolBar.SetVisible("测试2",false);
+	}
+}
+
+function ShowCustomToolbar(blVisible){
+	var varDisplayStyle = allWebOfficeAx.GetDisplayStyle();
+	if(varDisplayStyle)
+	{
+		varDisplayStyle.ShowCustomToolbar = blVisible;
+	}
+}
+
+function FullScreen()
+{
+	if(allWebOfficeAx == null)
+		return;
+	allWebOfficeAx.FullScreen = true;
+}
+
+function LoadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	//docx文件(*.docx);;excel文件(*.xlsx)
+	pluginUtilityObj.GetLocalSaveDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		if (httpclientObj.Open(0, "https://www.gov.cn/gzdt/att/att/site1/20100917/0019b90463ff0dfd641102.pdf", false)) {
+			httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+					httpclientObj.ResponseSaveToFile(varFile);
+					alert("LoadFile Status:" + httpclientObj.GetStatus());
+				}
+				else{
+					alert("LoadFile Status:" + httpclientObj.GetStatus());
+				}
+				httpclientObj.Close();
+			});	
+		}
+	});
+}
+
+function UploadFile()
+{
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("pdf文件(*.pdf);;").then(function(varFile){
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		httpclientObj.AddFile("test.pdf",varFile);
+		if (httpclientObj.Open(1, "http://127.0.0.1:6651/upload", false)) {
+			httpclientObj.Send().then(function(data){
+				alert("UploadFile Status:" + httpclientObj.GetStatus());
+				httpclientObj.Close();
+			});	
+        }
+	});
+}
+
+function Activate()
+{
+	allWebOfficeAx.Activate(true);
+}
+
+function OpenBookMarksDlg()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	allWebOfficeAx.OpenBookMarksDlg_Asyn("");
+}
+
+function GetAllBookMarks()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.GetAllBookMarks());
+}
+
+function GotoBookMark()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	allWebOfficeAx.GotoBookMark("allWebPlugin");
+}
+
+function SetBookMark()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.SetBookMark("allWebPlugin","allWebPlugin中间件"));
+}
+
+function GetBookMark()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.GetBookMark("allWebPlugin"));
+}
+
+function ExistBookMark()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.ExistBookMark("allWebPlugin") == true ? "存在" : "不存在");
+}
+
+function DeleteBookMark()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.DeleteBookMark("allWebPlugin") == true ? "成功" : "失败");
+}
+
+function AcceptAllRevisions()
+{
+	var doc = allWebOfficeAx.ActiveDocument();
+	var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+	if(varSaveFormat === undefined){//非word 
+		alert("请打开Word文档");
+		return;
+	}
+	alert(allWebOfficeAx.AcceptAllRevisions() == true ? "成功" : "失败");
+}
+
+function ShowRevisions(newVal){
+	if(allWebOfficeAx)
+	{
+		var doc = allWebOfficeAx.ActiveDocument();
+		var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+		if(varSaveFormat === undefined){//非word 
+			alert("请打开Word文档");
+			return;
+		}
+		allWebOfficeAx.Application().UserName = "allWebPlugin";
+		allWebOfficeAx.ShowRevisions = newVal;
+	}
+}
+
+function Protect(){
+	if(allWebOfficeAx)
+	{
+		allWebOfficeAx.SetProtect(true,"",1);
+	}
+}
+
+function UnProtect(){
+	if(allWebOfficeAx)
+	{
+		allWebOfficeAx.SetProtect(false,"",1);
+	}
+}
+
+function InsertImage(){
+	if(allWebOfficeAx)
+	{
+		//allWebOfficeAx.split('.').pop();
+		//var strFullName = allWebOfficeAx.FullName;
+		//alert(strFullName);
+		var doc = allWebOfficeAx.ActiveDocument();
+		var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+		if(varSaveFormat !== undefined)//word 
+		{
+			if(allWebOfficeAx.InsertImage("allWebPlugin",image32,true,0,false) == false){
+					alert("请添加 allWebPlugin 书签");
+			}
+		}
+		else if(doc){//excel
+			allWebOfficeAx.InsertImage("A3:B6",image32,true,0,false);
+		}else{
+			alert("请先打开文档");
+		}
+	}
+}
+
+function InsertHandWriteImage(){
+	if(allWebOfficeAx)
+	{
+		//allWebOfficeAx.split('.').pop();
+		//var strFullName = allWebOfficeAx.FullName;
+		//alert(strFullName);
+		var doc = allWebOfficeAx.ActiveDocument();
+		var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+		if(varSaveFormat !== undefined)//word 
+		{
+			if(allWebOfficeAx.InsertHandWriteImage("allWebPlugin",true,0,false) == false){
+					alert("请添加 allWebPlugin 书签");
+			}
+		}
+		else if(doc){//excel
+			allWebOfficeAx.InsertHandWriteImage("A3:B6",true,0,false);
+		}
+		else {
+			alert();
+		}
+	}
+}
+
+function GetTempFileName(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.GetTempFileName("D:\\","all"));
+	}
+}
+
+function UpdatePluginSize(){
+	g_allWebPlugin.ActivateContainer.UI.setCanvasSize(800,600);
+}
+
+function GetTempPath(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.GetTempPath());
+	}
+}
+
+
+function CreateDirectory(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.CreateDirectory("D:\\allWebPlugin") == true ? "成功" : "失败");
+	}
+}
+
+function DeleteFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.DeleteFile("D:\\1.png") == true ? "成功" : "失败");
+	}
+}
+
+function ClearDirectory(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.ClearDirectory("D:\\allWebPlugin") == true ? "成功" : "失败");
+	}
+}
+function UpdateTitle(){
+		document.title = "自主创新，不依赖浏览器插件技术，摆脱浏览器限制!";
+		g_allWebPlugin.ActivateContainer.UI.UpdateTitle(document.title);
+}
+
+function GetFileSize(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert("D:\\1.png 文件大小为: " + pluginUtilityObj.GetFileSize("D:\\1.png"));
+	}
+}
+
+function FilePathExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.FilePathExists("D:\\1.png") == true ? "存在" : "不存在");
+	}
+}
+
+function DirectoryExists(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+	{
+		alert(pluginUtilityObj.DirectoryExists("D:\\allWebPlugin") == true ? "存在" : "不存在");
+	}
+}
+
+function ExecuteApp(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj){
+		pluginUtilityObj.ExecuteApp("C:\\Windows\\system32\\notepad.exe","").then(function(data){
+				alert("ExecuteApp: " + data);
+		});
+	}
+}
+
+function IsExistApp(appName){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj){
+		alert("IsExistApp: " + pluginUtilityObj.IsExistApp(appName));
+	}
+}
+
+function KillApp(appName){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj){
+		alert("KillApp: " + pluginUtilityObj.KillApp(appName));
+	}
+}
+
+function OnCreated(){
+	alert("OnCreated 事件");
+}
+
+function OnQuit(){
+	alert("OnQuit 事件");
+}
+
+function OnCommand(wID,strCaption){
+	var str = "OnCommand: wID:" + wID + "  strCaption:" + strCaption + " 事件";
+	alert(str);
+}
+
+function OnRibbonCtrlCommand(strRibbonCtrlID){
+	if(document.visibilityState === 'visible')
+		alert("Ribbon ID: " + strRibbonCtrlID);
+}
+
+
+function OnOLECommand(OLECmd){
+	if(OLECmd == 1)//新建文档
+	{
+		alert("新建文档");
+	}else if(OLECmd == 2){
+		//alert("打开本地文档");
+		OpenLocalFile();
+	}
+	else if(OLECmd == 4){
+		//alert("保存");
+	}
+	else if(OLECmd == 8){
+		alert("另存为");
+	}
+	else if(OLECmd == 16){
+		alert("打印");
+	}	
+	else{
+		alert("OnOLECommand:" + OLECmd);
+	}
+}
+
+function OnFullSizeBefore(){
+	alert("OnFullSizeBefore");
+}
+
+function OnFullSizeAfter(){
+	alert("OnFullSizeAfter");
+}
+
+function OnFullSizeAfter(){
+	alert("OnFullSizeAfter");
+}
+
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		//{6888ECA8-57D0-6E0E-9B9B-F1FF9B2DBD86} allWebOffice
+		//{C7F277DC-6C47-AB2C-FB6A-070DC8BE7533} suwellreader
+		//{D89F482C-5045-4DB5-8C53-D2C9EE71D025} 老东家iWebOffice2015
+		//{9BE31822-FDAD-461B-AD51-BE1D1C159921}  VLC
+		//{082ECC40-38F1-4E8F-82D3-216009A96686}  RSignReader	
+		awp_CreatePlugin("allWebOfficeAx","{6888ECA8-57D0-6E0E-9B9B-F1FF9B2DBD86}");
+		PutRibbonCustomUI();
+		allWebOfficeAx.GetDisplayStyle().ShowOpenProgress = true;
+	}
+}
+ </script>
+</head>
+<body onload="init()" >
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td><span>　allWebPlugin + allWebOffice</span>中间件示例程序</td></tr></table></td></tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2" >
+  <table id="functionBox" border="0">
+    <tr>
+     <td  id="showTD" width="204px" height="30px"  valign="top">
+     
+       <table id="functionTable"   cellspacing='4' cellpadding='0'  >    
+        <tr  id="disPlayNone"><td height="30px" class="tableFather" >功能列表　　　　<span>&lt;</span></td></tr>
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档常用功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档功能 -->
+					<tr><td class="dot-size"><a onclick="CreateNew('Word.Document')">新建Word文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="CreateNew('Excel.Sheet')">新建Excel文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="OpenLocalFile()">打开本地文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="Save()">保存文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SaveAs()">另存为</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SaveAsPDF()">保存PDF文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="OpenPrintDlg()">打印</a></td></tr>
+					<tr><td class="dot-size"><a onclick="WebInsertVBA()">VBA套红(Word文档)</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowRevisions(true)">显示痕迹(Word文档)</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowRevisions(false)">隐藏痕迹(Word文档)</a></td></tr>
+					<tr><td class="dot-size"><a onclick="AcceptAllRevisions()">接受痕迹(Word文档)</a></td></tr>				
+					<tr><td class="dot-size"><a onclick="Close()">关闭文档</a></td></tr>		  										
+				 </table><!--END 文档功能 -->
+		   </div>
+		  </td></tr>
+		  
+		  <tr class="test"><td valign="middle" class="tableFather">
+		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  网络文件 　　<span>+</span></td></tr></table>
+	      <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- -->
+							<tr><td class="dot-size"><a onclick="openFileFromUrl()">打开base64文件流</a></td></tr>
+							<tr><td class="dot-size"><a onclick="openBigFile()">打开远程doc文档</a></td></tr>
+							<tr><td class="dot-size"><a onclick="openBigFileExcel()">打开远程Excel文档</a></td></tr>
+							<tr><td class="dot-size"><a onclick="remoteSaveBigFile()">保存远程文档</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>		  
+		  
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档安全　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档安全功能 -->
+					<tr><td class="dot-size"><a onclick="Protect()">锁定文档(仅阅读)</a></td></tr>
+					<tr><td class="dot-size"><a onclick="UnProtect()">解锁文档（可编辑）</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.SaveEnabled=false">禁用保存</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.SaveEnabled=true">允许保存</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.CopyEnabled=false">禁用拷贝</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.CopyEnabled=true">允许拷贝</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.PrintEnabled=false">禁用打印</a></td></tr>
+					<tr><td class="dot-size"><a onclick="allWebOfficeAx.PrintEnabled=true">允许打印</a></td></tr>							  										
+				 </table><!--END 文档功能 -->
+		   </div>
+		  </td></tr>
+		<tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 界面控制功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 界面控制子菜单 -->
+					<tr><td class="dot-size"><a onclick="FullScreen()">全屏编辑</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowMenuBar(true)">显示菜单栏</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowMenuBar(false)">隐藏菜单栏</a></td></tr>	
+					<tr><td class="dot-size"><a onclick="ShowToolBar(true)">显示Office工具条</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowToolBar(false)">隐藏Office工具条</a></td></tr>
+					<tr><td class="dot-size"><a onclick="AddCustomToolBtn()">添加自定义按钮</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowCustomToolbar(true)">显示自定义工具栏</a></td></tr>
+					<tr><td class="dot-size"><a onclick="ShowCustomToolbar(false)">隐藏自定义工具栏</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SetCustomToolBtnEnabled()">禁用自定义工具栏按钮</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SetCustomToolBtnVisible()">隐藏自定义工具栏按钮</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SetRibbonCtrUIEnabled()">更新Ribbon按钮</a></td></tr>	
+				 </table><!--END 界面控制功能 -->
+		   </div>
+		  </td></tr>		  
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 书签功能(Word文档)　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="OpenBookMarksDlg()">打开书签对话框</a></td></tr> 
+							<tr><td class="dot-size"><a onclick="GetAllBookMarks()">获取所有书签</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GotoBookMark()">调转到书签位置</a></td></tr>
+							<tr><td class="dot-size"><a onclick="VBAInsertFile('allWebPlugin','D:\\1.txt');">插入文件</a></td></tr>
+							<tr><td class="dot-size"><a onclick="SetBookMark()">设置书签文本</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetBookMark()">获取书签文本</a></td></tr>
+							<tr><td class="dot-size"><a onclick="ExistBookMark()">书签是否存在</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DeleteBookMark()">删除书签</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  文件操作功能 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="GetTempFileName()">临时文件名称</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetTempPath()">系统临时目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="CreateDirectory()">创建文件夹</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DeleteFile()">删除文件</a></td></tr>
+							<tr><td class="dot-size"><a onclick="ClearDirectory()">删除目录</a></td></tr>
+							<tr><td class="dot-size"><a onclick="GetFileSize()">获取文件大小</a></td></tr>
+							<tr><td class="dot-size"><a onclick="FilePathExists()">文件是否存在</a></td></tr>
+							<tr><td class="dot-size"><a onclick="DirectoryExists()">目录是否存在</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>
+		  
+		   <tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  其他常用功能 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="InsertImage()">插入图像</a></td></tr>
+							<!--tr><td class="dot-size"><a onclick="InsertHandWriteImage()">插入手写图像</a></td></tr-->
+							<tr><td class="dot-size"><a onclick="UpdatePluginSize()">修改插件大小</a></td></tr> 
+							<tr><td class="dot-size"><a onclick="ExecuteApp()">启动NotePad</a></td></tr>
+							<tr><td class="dot-size"><a onclick="IsExistApp('wps.exe')">wps进程是否存在</a></td></tr>
+					    </table><!--END 文档书签 -->
+		  </div>
+		  </td></tr>		  
+
+		  <tr><td>&nbsp;</td></tr>     
+       </table>
+
+     </td>
+     
+     <td id="activeBox" >
+       <table id="activeTable" style="width:100%;height:100%">
+        <tr>
+        <td valign="top"  border="1" style="width:100%;height:100%">
+				<!--设置宽高大小,创建插件时，bFixSize 为true，如：awp_CreatePlugin(id,"clsid",license)-->
+            	<!--canvas id="allWebOfficeAx" width="1024px" height = "768px">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas!-->
+				<!--百分比控制大小，创建插件时，bFixSize 为false，如：awp_CreatePlugin(id,"clsid",license)-->
+				<canvas id="allWebOfficeAx" style="width:100%;height:99%">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+	</td>
+		</tr>
+	   </table>  
+     </td>
+    </tr>
+  </table>
+ </td></tr>
+ <!-- end showList -->
+  
+ <!-- footer -->
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <!-- end footer --> 
+</table>
+</body> 
+</html>

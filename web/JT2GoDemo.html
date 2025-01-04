@@ -1,0 +1,106 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>JT2Go 3D演示页面</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style type="text/css">
+        .style1
+        {
+            font-size: xx-large;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style2
+        {
+            font-size: 16px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style3
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #000000;
+        }
+		.style4
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF0000;
+        }
+   </style>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script>
+<script language="javascript" type="text/javascript">
+ var hostCnt = null;
+function init(){   
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("JT2GoObj","{AD0DEF5C-DEC1-4950-AC57-1533F90C6BAD}");
+		if(JT2GoObj){
+			JT2GoObj.StartAutomation();
+			JT2GoObj.Open("");
+		}
+	}
+}
+
+function openFile()
+{
+	if(JT2GoObj){
+		var pluginUtilityObj = awp_getPluginUtility();
+			pluginUtilityObj.GetLocalOpenDialog("jt文件(*.jt);;所有文件(*.*)").then(function(varFile){
+				console.log(varFile);
+				if(varFile != "")
+					JT2GoObj.Open(varFile);
+			});
+	}
+}
+function openWebFile()
+{
+	if(JT2GoObj){
+		var pluginUtilityObj = awp_getPluginUtility();
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test.jt", false)) {
+			httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+					var varTempPath = pluginUtilityObj.GetTempPath();
+					var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".jt";
+					httpclientObj.ResponseSaveToFile(varFile);
+					JT2GoObj.Open(varFile);
+				}
+				else{
+					var httpStatus = httpclientObj.GetStatus();
+					if(httpclientObj.GetStatus() == 0)
+					{
+						alert("LoadFile test.jt Error:" + httpclientObj.GetErrorText());
+					}else{
+						alert("LoadFile test.jt Status:" + httpStatus + ",请确保安装目录下web\doc目录存在test.jt");
+					}
+				}
+				httpclientObj.Close();
+			});	
+		 }
+	}
+}
+</script>
+
+</head>
+<body onload="init()" >
+	<p align="center"><b><span class="style1">JT2Go 3D演示页面</span><br class="style1" /></p>
+    <button onclick="openFile()">打开文档</button>
+	<button onclick="openWebFile()">打开在线文档</button>
+    <table style="width:100%;height:80%" border="0" align="center"> 
+       <tr style="width:100%;height:80%"> 
+           <td  style="width:100%;height:80%">
+				<canvas id="JT2GoObj" style="width:100%;height:100%">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+	   </td>
+       </tr>                       
+    </table>
+</body>
+</html>
+       
+        

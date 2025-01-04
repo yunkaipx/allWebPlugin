@@ -1,0 +1,29 @@
+.layui-tab-ex{margin:0}
+.layui-tab-ex{margin:0px 0;text-align:left!important}
+.layui-tab-ex[overflow]>.layui-tab-title-ex{overflow:hidden}
+.layui-tab-title-ex{position:relative;left:0;height:40px;white-space:nowrap;font-size:0;border-bottom-width:1px;border-bottom-style:solid;transition:all .2s;-webkit-transition:all .2s;border-color: #eee;}
+.layui-tab-title-ex li{display:inline-block;*display:inline;*zoom:1;vertical-align:middle;font-size:14px;transition:all .2s;-webkit-transition:all .2s;}
+.layui-tab-title-ex li{position:relative;line-height:40px;min-width:65px;padding:0 15px;text-align:center;cursor:pointer}
+.layui-tab-title-ex li a{display:block;padding:0 15px;margin:0 -15px}
+.layui-tab-title-ex .layui-this-ex{color:#000}
+.layui-tab-title-ex .layui-this-ex:after{position:absolute;left:0;top:0;content:"";width:100%;height:41px;border-width:1px;border-style:solid;border-bottom-color:#fff;border-radius:2px 2px 0 0;box-sizing:border-box;pointer-events:none}
+.layui-tab-bar-ex{position:absolute;right:0;top:0;z-index:10;width:30px;height:39px;line-height:39px;border-width:1px;border-style:solid;border-radius:2px;text-align:center;background-color:#fff;cursor:pointer}
+.layui-tab-bar-ex .layui-icon{position:relative;display:inline-block;top:3px;transition:all .3s;-webkit-transition:all .3s}
+.layui-tab-item-ex{display:none}
+.layui-tab-more-ex{padding-right:30px;height:auto!important;white-space:normal!important}
+.layui-tab-more-ex li.layui-this-ex:after{border-bottom-color:#eee;border-radius:2px}
+.layui-tab-more-ex .layui-tab-bar-ex .layui-icon{top:-2px;top:3px\0;-webkit-transform:rotate(180deg);transform:rotate(180deg)}:root .layui-tab-more-ex .layui-tab-bar-ex .layui-icon{top:-2px\0/IE9}
+.layui-tab-content-ex{padding:15px 0}
+.layui-tab-title-ex li .layui-tab-close{position:relative;display:inline-block;width:18px;height:18px;line-height:20px;margin-left:8px;top:1px;text-align:center;font-size:14px;color:#c2c2c2;transition:all .2s;-webkit-transition:all .2s}
+.layui-tab-title-ex li .layui-tab-close:hover{border-radius:2px;background-color:#ff5722;color:#fff}
+.layui-tab-brief-ex>.layui-tab-title-ex .layui-this{color:#009688}
+.layui-tab-brief-ex>.layui-tab-more-ex li.layui-this-ex:after,.layui-tab-brief-ex>.layui-tab-title-ex .layui-this-ex:after{border:none;border-radius:0;border-bottom:2px solid #5fb878}
+.layui-tab-brief-ex[overflow]>.layui-tab-title-ex .layui-this-ex:after{top:-1px}
+.layui-tab-card-ex{border-width:1px;border-style:solid;border-radius:2px;box-shadow:0 2px 5px 0 rgba(0,0,0,.1)}
+.layui-tab-card-ex>.layui-tab-title-ex{background-color:#fafafa}
+.layui-tab-card-ex>.layui-tab-title-ex li{margin-right:-1px;margin-left:-1px}
+.layui-tab-card-ex>.layui-tab-title-ex .layui-this-ex{background-color:#fff}
+.layui-tab-card-ex>.layui-tab-title-ex .layui-this-ex:after{border-top:none;border-width:1px;border-bottom-color:#fff}
+.layui-tab-card-ex>.layui-tab-title-ex .layui-tab-bar-ex{height:40px;line-height:40px;border-radius:0;border-top:none;border-right:none}
+.layui-tab-card-ex>.layui-tab-more-ex .layui-this-ex{background:0 0;color:#5fb878}
+.layui-tab-card-ex>.layui-tab-more-ex .layui-this-ex:after{border:none}

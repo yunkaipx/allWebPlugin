@@ -1,0 +1,286 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>allWebPlugin + VLC ActiveX中间件示例程序</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=9" />
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
+ <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
+ <script type="text/javascript">
+	
+ </script>
+ <script language="javascript">
+var itemId;  // 播放列表中播放节目的id
+var vlcSound; // vlc音量大小（初始化默认为50）
+var videoLength; // 视频总时长
+var then_time; // 播放开始时间(播放开始的日期，看下面实现代码，它是毫秒哦)
+var isPlaying=0; // 是否播放状态 （0 未播放 1 播放）		
+
+function MediaPlayerStopped(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	if(pluginUtilityObj)
+		pluginUtilityObj.ShowMessage("MediaPlayerStopped！");
+}
+
+// 检查播放节目的状态
+function checkVedioStatus(){
+	var input = vlcPlugin.input();
+	if(input == null)
+		return;
+
+    if(input.state() > 2 && input.state() < 5){
+     isPlaying=1;
+     // vlcPlugin.input.time 当前播放时长，单位毫秒
+     // vlcPlugin.input.length 节目总时长，单位毫秒
+     videoLength=parseInt(input.length() / 1000);
+     var temp_total_time = parseTime(videoLength);
+     // 总时长设置
+     document.getElementById("vedio_length").value = temp_total_time;
+     // 当前可以输入时间段跳转
+     document.getElementById("time_change").disabled = false;
+     // 获得当前系统时间
+     then_time=new Date().getTime();
+     // 计算当前播放时间点
+     checkTime();
+    }else{
+     // 如果不是播放状态就在延时执行
+     setTimeout(checkVedioStatus,500);
+    }
+}
+
+// 实时检测系统时间，计算视频的播放时长（典型的秒表功能）
+function checkTime(){
+ if(isPlaying==1){
+  setTimeout("checkTime();",50);
+  var temp_time = parseInt((new Date().getTime() - then_time)/1000);
+  document.getElementById("current_video_time").value = parseTime(temp_time);
+ }
+}
+ 
+ // 改变播放地址
+function changeNewBeginTime(){
+	// vlcPlugin.input.time 获取当前播放时间（毫秒）/也可重设当前播放时间点
+	var pluginUtilityObj = awp_getPluginUtility();
+	var input = vlcPlugin.input();
+	if(input == null)
+		return;
+	 var jumpTime = document.getElementById("change_length").value;
+	 if(jumpTime!=""){
+	  if(jumpTime > videoLength){
+	   pluginUtilityObj.ShowMessage("对不起，输入值大于视频总时长...");
+	   return;
+	  }
+	  input.time = (jumpTime*1000);
+	  then_time = new Date()-jumpTime*1000;
+	 }
+}
+
+// 把秒转换为时间格式（HH：mm：ss）
+function parseTime(numLength){
+ var h_time = 0;
+ var m_time = 0;
+ var s_time = 0;
+ if(numLength >= 60){
+  m_time=parseInt(numLength/60);
+  s_time=parseInt(numLength%60);
+ }else{
+  s_time=numLength;
+ }
+ if(m_time >= 60){
+  h_time=parseInt(m_time/60);
+  m_time=parseInt(m_time%60);
+ }
+  
+ if(h_time < 10){
+  h_time="0"+h_time;
+ }
+ if(m_time < 10){
+  m_time="0"+m_time;
+ }
+ if(s_time < 10){
+  s_time="0"+s_time;
+ }
+ return h_time+":"+m_time+":"+s_time;
+}
+
+// 停止播放
+function stopPlay(){
+ 	var playlist = vlcPlugin.playlist();
+	if(playlist)
+	{
+		playlist.stop_async();
+	}
+	isPlaying=0;
+	// 修改播放/停止按钮状态
+	document.getElementById("play_button").disabled=false;
+    document.getElementById("stop_button").disabled=true;
+    
+    // 修改跳转按钮的状态
+    document.getElementById("change_length").value="";
+    document.getElementById("time_change").disabled=true;
+    
+    // 当前视频播放时间点清空
+    document.getElementById("current_video_time").value="";
+}
+// 重新播放
+function repeatPlay(){
+	var playlist = vlcPlugin.playlist();
+	if(playlist)
+	{
+		playlist.play();
+	}
+	setTimeout(checkVedioStatus,500);
+	// 修改播放/停止按钮状态
+	document.getElementById("play_button").disabled=true;
+    document.getElementById("stop_button").disabled=false;
+}
+
+// 静音
+function noSound(){
+ if(vlcSound > 0){
+  vlcSound = 0;
+ }
+ 
+ var audio = vlcPlugin.audio();
+	if(audio == null)
+	{
+		 return ;
+	}
+ 
+ audio.toggleMute();
+ vlcSound = audio.volume();
+ document.getElementById("vlc_sound").value=vlcSound;
+ if(vlcSound == 0){
+  // document.getElementById("no_sound").value=" 恢复音量 ";
+  document.getElementById("no_sound").value=" "+"恢复音量"+" ";
+ }else{
+  // document.getElementById("no_sound").value=" 静    音 ";
+  document.getElementById("no_sound").value=" "+"静"+"  "+"音"+" ";
+ }
+}
+
+// 音量加减
+function soundChange(nums){
+ var pluginUtilityObj = awp_getPluginUtility();
+ if(nums<0 && vlcSound==0){
+  pluginUtilityObj.ShowMessage("音量最小，不能再减少音量....");
+  return;
+ }
+ vlcSound+=nums;
+ if(vlcSound<=0){
+  vlcSound=0;
+  document.getElementById("no_sound").value=" "+"恢复音量"+" ";
+ }else{
+  // 当音量>0的时候，都要把静音的标识打开
+  document.getElementById("no_sound").value=" "+"静"+"  "+"音"+" ";
+ }
+ if(vlcSound>200){
+  pluginUtilityObj.ShowMessage("音量最大，不能再增大音量....");
+  vlcSound=200;
+ }
+ var audio = vlcPlugin.audio();
+ if(audio == null){
+	 return ;
+ }
+ audio.volume = vlcSound;
+ document.getElementById("vlc_sound").value=vlcSound;
+}
+//全屏
+function screenFull(){
+  var video = vlcPlugin.video();
+  if(video)
+  {
+	video.toggleFullscreen();
+  }
+}
+
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("vlcPlugin","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
+		if(vlcPlugin != null){
+			vlcPlugin.MRL = "http://vd2.bdstatic.com/mda-mi1dd05gmhwejdwn/sc/cae_h264/1630576203346678103/mda-mi1dd05gmhwejdwn.mp4";
+			vlcPlugin.AutoPlay = true;
+			vlcPlugin.volume = 50;
+			
+			var playlist = vlcPlugin.playlist();
+			if(playlist)
+			{
+				var video_url = "http://vd2.bdstatic.com/mda-mi1dd05gmhwejdwn/sc/cae_h264/1630576203346678103/mda-mi1dd05gmhwejdwn.mp4";
+				var options = ":rtsp-udp";
+				var itemId = playlist.add(video_url,"",options); //.add(vedio_url);
+				playlist.playItem(itemId);
+				playlist.play();
+			}
+			
+			// 获取VLC当前音量
+			vlcSound = vlcPlugin.volume();
+			// 设置VLC音量值
+			document.getElementById("vlc_sound").value = vlcSound;
+			// 播放按钮不可用
+			document.getElementById("play_button").disabled = true;
+			
+			// 检查播放节目的状态 -- 注意这个是延时操作哦（setTimeout以毫秒为单位，这里延时0.5秒）
+			setTimeout(checkVedioStatus,500);
+		}
+	}
+}
+ </script>
+</head>
+<body onload="init()" style="overflow-y:hidden;overflow-x:hidden">
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td><span>　allWebPlugin + VLC ActiveX</span>中间件示例程序</td></tr></table></td></tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2">
+  <table id="functionBox" border="0">
+    <tr>
+     <td id="activeBox">
+       <table id="activeTable">
+        <tr>
+        <td valign="center"  border="1">
+            	<canvas id="vlcPlugin" width="768" height="576">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+        </TD></tr>
+		<tr><td>
+			<input type="button" value=" 播    放 "  onclick="repeatPlay();" id="play_button">  
+			<input type="button" value=" 停    止 "  onclick="stopPlay();" id="stop_button">  
+			<input type="button" value=" 静    音 "  onclick="noSound();" id="no_sound">  
+			<input type="button" value=" 减少音量 "  onclick="soundChange(-10);">  
+			<input type="button" value=" 增大音量 "  onclick="soundChange(10);">  
+			<input type="button" value=" 全    屏 "  onclick="screenFull();">
+
+			<font color="red" size="2">音量：</font><input type="text" id="vlc_sound" style="width: 40px;color: blue">
+			<br>
+			<font color="red" size="2">总时长：</font><input type="text" id="vedio_length" style="width: 65px;color: blue"> 
+			<input type="text" id="current_video_time" style="width: 65px;color: blue">
+
+			<font color="red" size="2">跳转：</font><input type="text" id="change_length" style="width: 100px;color: blue">
+			<span style="color: blue;font-weight: normal;font-size: 14px">秒</span>
+			  
+			<input type="button" value="确定" id="time_change" disabled="disabled" onclick="changeNewBeginTime();">
+			</td> </tr>
+	   </table> 
+<br><br>
+     </td>
+    </tr>
+
+  </table>
+ </td></tr>
+
+ <!-- end showList -->
+ 
+ 
+  
+ <!-- footer -->
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	QQ：78418227   微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <!-- end footer --> 
+</table>
+</body> 
+</html>

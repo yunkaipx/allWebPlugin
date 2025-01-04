@@ -1,0 +1,82 @@
+﻿<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+<TITLE>对象 allWebDesktop 的 ATL 测试页</TITLE>
+</HEAD>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+<script language="javascript" type="text/javascript">
+
+function init(){   
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.28";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		//{c8a21e7f-d127-445d-af66-cfd3c8d1b765}
+		awp_CreatePlugin("allWebDesktop","{c8a21e7f-d127-445d-af66-cfd3c8d1b765}");
+	}
+}
+
+
+function openFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+		pluginUtilityObj.GetLocalOpenDialog("docx文件(*.docx;*.doc);;excel文件(*.xls;*.xlsx);;所有文件(*.*)").then(function(varFile){
+			console.log(varFile);
+			if(varFile != "")
+				allWebDesktop.Open(varFile,"");
+		});
+}
+
+function Close(){
+	allWebDesktop.Close(0);
+}
+
+function openWebFile()
+{
+	if(allWebDesktop){
+		var pluginUtilityObj = awp_getPluginUtility();
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test.jt", false)) {
+			httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+					var varTempPath = pluginUtilityObj.GetTempPath();
+					var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".jt";
+					httpclientObj.ResponseSaveToFile(varFile);
+					allWebDesktop.Open(varFile,"");
+				}
+				else{
+					var httpStatus = httpclientObj.GetStatus();
+					if(httpclientObj.GetStatus() == 0)
+					{
+						alert("LoadFile test.jt Error:" + httpclientObj.GetErrorText());
+					}else{
+						alert("LoadFile test.jt Status:" + httpStatus + ",请确保安装目录下web\doc目录存在test.jt");
+					}
+				}
+				httpclientObj.Close();
+			});	
+		 }
+	}
+}
+
+</script>
+<BODY onload="init()">
+<p align="center"><b><span class="style1">allWebDesktop 演示页面</span><br class="style1" /></p>
+<button onclick="openFile()">打开文档</button>
+<button onclick="Close()">关闭</button>
+<button onclick="openWebFile()">打开在线jt文档</button>
+
+<!--OBJECT ID="allWebDesktop" CLASSID="CLSID:c8a21e7f-d127-445d-af66-cfd3c8d1b765" width="800px" height="600px"></OBJECT-->
+<table style="width:100%;height:80%" border="0" align="center"> 
+       <tr style="width:100%;height:80%"> 
+           <td  style="width:100%;height:80%">
+				<canvas id="allWebDesktop" style="width:100%;height:100%">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+	   </td>
+       </tr>                       
+    </table>
+
+</BODY>
+</HTML>
