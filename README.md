@@ -40,7 +40,7 @@ function OnCreated(){
 }
 ```
 ## 演示示例
-下载本程序，运行allWebPluginServer.exe程序，在谷歌、火狐、Edge等浏览器中输入[地址](http://127.0.0.1:6651)。即可查看Demo示例。本工程将提供越来越多的ActiveX、NPAPI插件使用Demo，方便大家学习交流。[博客](https://blog.csdn.net/yunkaipx) 
+下载本程序，运行allWebPluginServer.exe程序，在谷歌、火狐、Edge等浏览器中输入地址(http://127.0.0.1:6651)。即可查看Demo示例。本工程将提供越来越多的ActiveX、NPAPI插件使用Demo，方便大家学习交流。[博客](https://blog.csdn.net/yunkaipx) 
 
 
 ​
