@@ -9,16 +9,20 @@ allWebPlugin中间件是一款为用户提供安全、可靠、便捷的浏览�
 6. 攻克诸多技术难点，实现插件不修改、不注册也能使用，极大的降低插件开发量和维护量。
 ## 集成步骤
 ​第一步：为了页面集成插件，需要引入allWebPlugin.Common.js allWebPlugin.UI.j及allWebPlugin.Main.js文件。如下图所示：
+```
 <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
 <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
 <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script>
-	
+```	
 第二步：添加定位元素，在需要展示插件的位置添加canvas页面元素(注意：也可以使用其他页面元素)。如下图所示：
+```
 <canvas id="allWebOfficeAx_zw" width="1024" height="600">
 <p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
 </canvas>
+```
 
 第三步：使用awp_CreatePlugin接口创建ActiveX插件对象。在页面加载初始化接口内，调用awp_CreatePlugin接口。使用定位元素id同名对象访问插件，像传统插件接口调用一样，调用插件对象的方法和属性，特别注意，调用读属性与调用插件方法接口一致。如图所示，页面元素canvas的id属性为allWebOfficeAx_zw；则可以直接试用allWebOfficeAx_zw对象访问插件接口。
+```
 function init(){
 var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
 var installPackageVersion = "2.0.0.28";	
@@ -28,11 +32,13 @@ if(awp_IsInstall(installPackageVersion,installPackageUrl)){
 	allWebOfficeAx_zw.GetDisplayStyle().ShowOpenProgress = false;
 }
 }
-
+```
 第四步：为了响应插件事件，需要在网页内实现插件响应函数。如下代码所示
+```
 function OnCreated(){
 	alert("OnCreated 事件");//allWebOffice 插件创建事件
 }
+```
 
 
 
