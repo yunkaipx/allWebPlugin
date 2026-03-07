@@ -1,0 +1,79 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>CFCA SecEditCtl 密码安全输入控件</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style type="text/css">
+        .style1
+        {
+            font-size: xx-large;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style2
+        {
+            font-size: 16px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style3
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #000000;
+        }
+		.style4
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF0000;
+        }
+   </style>
+<script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+<script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+<script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
+<script language="javascript" type="text/javascript">
+function init(){   
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.30";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("secEditCtl","{61C55D18-6121-4A9C-989A-78F0F87C5228}");
+		awp_CreatePlugin("secEditCtl_2","{dec8d8a1-abad-4249-86f1-4a4ae93965a9}");
+	}	
+}
+</script>
+
+</head>
+<body onload="init()" >
+	<p align="center"><b><span class="style1">CFCA SecEditCtl 密码安全输入控件</span><br class="style1" /></p>
+	<button onclick="alert(secEditCtl.GetLengthIntensity())">GetLengthIntensity</button>
+	<button onclick="alert(secEditCtl.GetComplexIntensity())">GetComplexIntensity</button>
+	<button onclick="alert(secEditCtl.GetVersion())">GetVersion</button>
+	<button onclick="alert(secEditCtl.GetClientRandom())">GetClientRandom</button>
+	<button onclick="alert(secEditCtl.GetValue())">GetValue</button>
+	<br class="style1" />
+	<button onclick="alert(secEditCtl.Clear())">Clear</button>
+	<button onclick="alert(secEditCtl.GetPasswordHash())">GetPasswordHash</button>
+	<button onclick="alert(secEditCtl.GetPasswordLength())">GetPasswordLength</button>
+	<button onclick="alert(secEditCtl.GetPasswordStrength())">GetPasswordStrength</button>
+	<button onclick="alert(secEditCtl.IsWeakPassword())">IsWeakPassword</button>
+	<button onclick="alert(secEditCtl.GetNetInfo())">GetNetInfo</button>
+	<button onclick="alert(secEditCtl.GetCPUInfo())">GetCPUInfo</button>
+	<button onclick="alert(secEditCtl.GetDiskInfo())">GetDiskInfo</button>
+	<br class="style1" />
+	<table border="0" align="left"> 
+       <tr > 
+			<td >
+			密码:
+			</td >
+			<td >
+				<input type="password" id="secEditCtl" style="width: 200px;height: 50px;" >
+				</input>
+				<input type="password" id="secEditCtl_2" style="width: 200px;height: 50px;" >
+				</input>
+			</td>
+       </tr>                       
+    </table>
+</body>
+</html>
+       
+        

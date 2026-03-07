@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>allWebPlugin中间件激活</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 10px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .logo p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f9fbfd;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background-color: white;
+        }
+		textarea{
+			width: 100%;
+			height: 200px;
+            padding: 14px 16px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f9fbfd;
+		}
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background-color: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .divider {
+            height: 1px;
+            background: #ecf0f1;
+            margin: 10px 0;
+        }
+        
+        .qr-section {
+            margin-top: 10px;
+        }
+        
+        .qr-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            border: 1px dashed #ddd;
+        }
+        
+        .qr-code svg {
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #95a5a6;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px 10px;
+            }
+        }
+    </style>
+</head>
+<body onload='init();'>
+    <div class="container">
+        <div class="logo">
+            <h1>allWebPlugin.IE扩展激活</h1>
+        </div>    
+        <form id="deviceRegistrationForm">
+            <div class="form-group">
+                <label for="serialNumber">机 器 码:<font style="font-size:12px;color:blue;">&nbsp &nbsp请将机器码发送给我们</font></label>
+                <input type="text" id="serialNumber" name="serialNumber" value="123456" required readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="authCode">授权许可<font style="font-size:12px;color:blue;">&nbsp &nbsp请将完整授权许可复制到这里</font></label>
+                <textarea type="text" id="authCode" name="authCode" placeholder="请输入授权许可" spellcheck="false" required></textarea>
+            </div>
+            <button type="submit" class="btn">激活</button>
+        </form>
+        <div class="divider"></div>     
+        <div class="qr-section">
+            <div class="qr-code">
+                     <div align="center">
+					  <img src="css\allWebPlugin.png" style="width:125px;height:125px">
+					</div>
+                <span>微信扫码联系我们</span>
+            </div>
+        </div>
+    </div>
+    <script>
+	function sendXMLHttpRequest(method, url, _async,jsonData){
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST",url,_async);
+		xhr.setRequestHeader("Accept","application/json; charset=utf-8");
+		xhr.setRequestHeader("X-Requested-With","XMLHttpRequest");
+		xhr.setRequestHeader("Content-Type","application/json;charset=utf-8");
+		if(_async == false){
+			const senddata = JSON.stringify(jsonData);
+			try{
+				xhr.send(senddata);
+			}catch(e){	
+				console.log(e.message);
+			}
+		}
+		return xhr;
+	}
+	function init(){
+		var jsonData = {
+            cmd: "GetMachineID"
+        };
+		var xhr = sendXMLHttpRequest("POST",'http://127.0.0.1:6651/plugin',false,jsonData);
+		if (xhr.status === 200) {
+			var response = JSON.parse(xhr.responseText);
+			if(response.code == 0)
+			{
+				document.getElementById('serialNumber').value = response.msg;
+			}
+		}else{
+			 alert('网络异常，请确保allWebPlugin中间件服务已启动。');
+		}
+	}
+        document.getElementById('deviceRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const authCode = document.getElementById('authCode').value;    
+            if (!authCode) {
+                alert('请填写授权许可！');
+                return;
+            }
+			
+			var jsonData = {
+            cmd: "Regster",
+			lic: authCode
+			};
+			var xhr = sendXMLHttpRequest("POST",'http://127.0.0.1:6651/plugin',false,jsonData);
+			if (xhr.status === 200) {
+				var response = JSON.parse(xhr.responseText);
+				if(response.code == 0)
+				{
+					alert('激活成功,快去体验吧！');
+				}else{
+					alert(response.msg);
+				}
+			}else{
+			 alert('网络异常，请确保allWebPlugin中间件服务已启动。');
+			}
+        });
+    </script>
+</body>
+</html>

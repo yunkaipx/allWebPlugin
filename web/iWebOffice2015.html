@@ -1,12 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  <title>金格科技-iWebOffice2015智能文档中间件示例程序</title>
- <meta http-equiv="X-UA-Compatible" content="IE=9" />
  <script type="text/javascript" src="leftNav/jquery.min.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
  <script type="text/javascript" src="iWebOffice2015/WebOffice.js"></script>
  <script type="text/javascript">
  $(function(){
@@ -47,7 +46,7 @@
 	});		
 })
 </script>
-<link rel='stylesheet' type='text/css' href='css/iWebProduct.css' />
+<link rel='stylesheet' type='text/css' href='css/iWebproduct.css' />
 
 
 <!-- 以下为2015主要方法 -->
@@ -57,7 +56,7 @@
 <script type="text/javascript">
 function init(){
 	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
-	var installPackageVersion = "2.0.0.28";	
+	var installPackageVersion = "2.0.0.30";	
 	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
 		awp_CreatePlugin("kgWebOffice","{D89F482C-5045-4DB5-8C53-D2C9EE71D025}");
 		if(kgWebOffice != null)

@@ -1,0 +1,130 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>allWebPlugin + WPSDocFrame ActiveX 中间件示例程序</title>
+ <script type="text/javascript" src="leftNav/jquery.min.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script>  
+ <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
+ <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
+ <script type="text/javascript">
+	
+ </script>
+ <script language="javascript">
+
+function init(){
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.30.0";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("WPSDocFrame","{8E7DA7EC-07EC-4343-8141-88A2ADB63A5F}");
+	}
+}		
+function OpenLocalFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	pluginUtilityObj.GetLocalOpenDialog("doc文件(*.doc);;docx文件(*.docx);;xls文件(*.xls);;xlsx文件(*.xlsx);;所有文件(*.*)").then(function(varFile){
+		console.log(varFile);
+		if(varFile != "")
+		{	
+			WPSDocFrame.Open(varFile,"");
+		}
+	});
+}
+function SaveLocalFile(){
+	var pluginUtilityObj = awp_getPluginUtility();
+	//docx文件(*.docx);;excel文件(*.xlsx)
+	pluginUtilityObj.GetLocalSaveDialog("doc文件(*.doc);;docx文件(*.docx);;xls文件(*.xls);;xlsx文件(*.xlsx);;").then(function(varFile){
+		WPSDocFrame.saveAs(varFile);
+	});
+}
+
+function CloseFile(){
+	WPSDocFrame.close();
+}
+
+function setShowToolbar(on){
+	WPSDocFrame.Toolbars = on;
+}
+//WPSDocFrame OnDocumentOpened 事件
+function OnDocumentOpened(docFrame){
+	docFrame.Toolbars = true;
+	alert("OnDocumentOpened Event,wpsDocFrame:" + docFrame.Titlebar());
+}
+//WPSDocFrame OnDocumentOpened 事件
+function OnDocumentClosed(wpsDocFrame){
+	alert("OnDocumentClosed Event,wpsDocFrame" + wpsDocFrame);
+}
+function OnDocumentBeforePrint(wpsDocFrame){
+	alert("OnDocumentBeforePrint Event,wpsDocFrame" + wpsDocFrame);
+}
+function OnDocumentBeforeSave(wpsDocFrame){
+	alert("OnDocumentBeforeSave Event,wpsDocFrame" + wpsDocFrame);
+}
+function OnDocumentAfterSave(wpsDocFrame){
+	alert("OnDocumentAfterSave Event,wpsDocFrame" + wpsDocFrame);
+}
+
+ </script>
+</head>
+<body onload="init()" style="overflow-y:hidden;overflow-x:hidden">
+<table id="maintable"  cellspacing='0' cellpadding='0' >
+ <!-- head -->
+ <tr><td colspan="2" valign="top" height="61px"><table cellspacing='0' cellpadding='0' cellspacing='0' cellpadding='0'  id="header"><tr ><td><span>　allWebPlugin + WPSDocFrame </span>中间件示例程序</td></tr></table></td></tr> 
+ <!-- end head -->
+ 
+ <!-- showList -->
+ <tr><td id="showtr" colspan="2" >
+  <table id="functionBox" border="0">
+    <tr>
+     <td  id="showTD" width="204px" height="30px"  valign="top">
+     
+       <table id="functionTable"   cellspacing='4' cellpadding='0'  >    
+        <tr  id="disPlayNone"><td height="30px" class="tableFather" >功能列表　　　　<span>&lt;</span></td></tr>
+        <tr  class="test"><td valign="middle" class="tableFather">
+  		  <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle"> 文档常用功能　　<span>+</span></td></tr></table>
+	       <div id="read0"  class="hideDiv" >
+				<table id="readT0"   width="100%" cellspacing='0' cellpadding='0'><!-- 文档功能 -->
+					<tr><td class="dot-size"><a onclick="WPSDocFrame.CreateNew('WPS.Document')">新建Word文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="WPSDocFrame.CreateNew('ET.Workbook')">新建Excel文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="OpenLocalFile()">打开本地文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="SaveLocalFile()">另存为</a></td></tr>
+					<tr><td class="dot-size"><a onclick="CloseFile()">关闭文档</a></td></tr>
+					<tr><td class="dot-size"><a onclick="WPSDocFrame.print()">打印</a></td></tr>				
+				 </table><!--END 文档功能 -->
+		   </div>
+		  </td></tr>
+			
+			<tr class="test"><td valign="middle" class="tableFather">
+		   <table class="tableAll" style="height:30px" cellspacing='0' cellpadding='0'><tr><td class="titleStyle">  界面UI操作 　　<span>+</span></td></tr></table>
+	       <div id="read1"  class="hideDiv">
+				       <table id="readT1" width="100%" cellspacing='0' cellpadding='0'><!-- 文档制功能子菜单 -->
+							<tr><td class="dot-size"><a onclick="setShowToolbar(true)">显示工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="setShowToolbar(false)">隐藏工具条</a></td></tr>
+							<tr><td class="dot-size"><a onclick="WPSDocFrame.Titlebar=true">显示标题栏</a></td></tr>
+							<tr><td class="dot-size"><a onclick="WPSDocFrame.Titlebar=false">隐藏标题栏</a></td></tr>
+							<tr><td class="dot-size"><a onclick="WPSDocFrame.FullScreen(true)">全屏</a></td></tr>
+					    </table>
+		  </div>
+		  </td></tr>  	  
+		  <tr><td>&nbsp;</td></tr>     
+       </table>
+     </td> 
+     <td id="activeBox">
+       <table id="activeTable" >
+        <tr>
+        <td valign="top"  border="1">
+            	<canvas id="WPSDocFrame" width="1024" height="600">
+					<p class="error">Sorry, It looks as though your browser does not support the canvas tag.</p>
+				</canvas>
+        </TD>
+		</script>
+	</td>
+		</tr>
+	   </table>  
+     </td>
+    </tr>
+  </table>
+ </td></tr>
+ <!-- end showList -->
+</table>
+</body> 
+</html>

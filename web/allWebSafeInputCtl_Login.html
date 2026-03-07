@@ -1,0 +1,112 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>allWebSafeInput 密码安全输入控件</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+<script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>   
+<script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
+<script language="javascript" type="text/javascript">
+function init(){   
+	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
+	var installPackageVersion = "2.0.0.30";	
+	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
+		awp_CreatePlugin("allWebSafeInputCtl","{dec8d8a1-abad-4249-86f1-4a4ae93965a9}");
+	}	
+}
+var varPwdValue;
+var varPubCert="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";
+var varPriKey="MIIEowIBAAKCAQEAuEXNp08g6Rmo3Bo+pzZ47Vea1F3f/70fTImM8rGHICBhIIgySAJ1CrjAoiRoX37S/B1ioO/pu1R8gkabUmG6QoN2SN4iUjWN5MBsCJ/S0V7J4vaDOOi8poB/FeUNeJ8ELX8HSqr50+2/DZRZk0cqVwXLuKZjOOI1iuOKgRAI/YmrM7HbaHTbftPBGTOlP22ZUR7NNY3EsArSZwV+kH9tR6p7hRNt8xUukXMMGelIet3UlDgG6OMsQ3KYyV046l2bBHmJ/Z93BzQvdAB904hPAJjb36trU02LonG71nan7sEuJVvTtsZX2c2A5XEoJ3vjE62+OEbP9ZT+nJ+6xAFCeQIDAQABAoIBAACFP10lKcZZP3X5B++WscdlpQEfXx/PE6etsW8BMVYP33Cf/jzLIqTJyQ22DgsXY0YW7RvjDxS88TajfllBWfWyW2V35H4WxXxbxd2eK1xt6tb358jM6uPs3hR2n5qpZr1iPz+lJnLRRjWhPFt/1foRGEc/G9zSezR0vvfWtFHCSDjwKhvo3ML8TSY9CS5l3ddyLQ07oQt45wxFvI5Jw+jXv9ZvNIWqU/Vh6p6N6xADK+xnoOEscpiW79sWxaWZ9QXdLFzQTX4/ar+KaYggxmeVE6M4/yK7/8MlBrMgeB9RbL+mSwhieMbKloN4JB1IC7epDSqWHiuOFVlZ1nEf+ssCgYEA+KYbVahuRB2ibFJsELBV+ZiuhTLJsn0y9FW+eZddjwJbTaThDDDOCAm/NUYZtEZItSgEpv8//gplB0OhBOPba7JIg8LNaS7dZuLDUYaLnq9hwK4lju2vtB4cA6oaj87Rev9inzWXUdBxJJnh1Q7fo5OKwYOTZrU44fC9sh3HuosCgYEAvbh3g//adBYlQCotBt33H+39yQjom7KQ45it4BMJnZtptsGa026+uRj6GZdUAwELB15HLVlcoZnoM208TjFwfvxsTFQWwy0e/57ipyaD6rxvLyG8+ki+4T8ZV9GX1AD5F56uecLYFfwmS+zpgc8rGTuxfRZNp92H62hqDfsBC4sCgYB57bJPwcU4f7OrHIvDb0TpnTZPOMVxUjWPXRCHPXNycjxliamVucT+ahEqRZLLNP/oXZRSc65km6JI+p/V7wok+IrYmcjygDmvfxk6PBjxGp17x6nBOcrEL1ObdGmMBWXxw5QP8E6gnu8sfI0iViXSZ8JN/IBmiA05tjy/QB012wKBgEtTBgCegHk+oaOMGzxyvD8tGmnK46+NggEbCU3BwTuWDK7Gx1XSzl5nEEVA09Ytf9d5EwFqTWDL3mksoZjaADQqvETBzhfHvlr3Fj4PCKkWD37DAmjMoRyFFObNDF7b1AoQsm0dcvWnmvziHwOu4QmvrZRgWoyfY+uPFSxfz9ZpAoGBAJ9GvDZxAf7uYVfvnA9xhELFPh1IFk2Mx+pFgkMK8h+un65i8Ov6M2yiNaoIOqucD5yyZgvPehAFx3IrJGTIErfK3EP7XMYvW4/qfkT0mMpq7tmF5MZeDOZUDfxcfjVIK23miy0V6CQCEIkPIOZmZq3l59WcpQHPLlyrm9BWow0D";
+
+function GetPasswordValue(){
+	allWebSafeInputCtl.PubCert = varPubCert;
+	varPwdValue = allWebSafeInputCtl.GetPasswordValue();
+	WriteLog("GetPasswordValue:\n" + varPwdValue);
+}
+	
+function DecryptPwdValue(){
+	allWebSafeInputCtl.PubCert = varPubCert;
+	varPwdValue = allWebSafeInputCtl.GetPasswordValue();
+	var varPwd = allWebSafeInputCtl.DecryptPwdValue(varPriKey,varPwdValue);
+	WriteLog("DecryptPwdValue:\n" + varPwd);
+}
+
+function WriteLog(vlog){
+	var varlog = document.getElementById("log");
+	varlog.value = vlog;
+}
+
+///--------event-----------
+function OnCreated(strID){
+    var vlog = "OnCreated:\n" + strID;
+	console.log(vlog);
+}
+
+function OnPwdChange(strID){
+	var pwd = document.getElementById(strID);
+	WriteLog("OnPwdChange: \n" + strID);
+	var inputctrl = awp_getPluginById(strID);
+	if(inputctrl){
+		var nCount = inputctrl.GetPasswordLength();
+		var varValue = "";
+		for(var i = 0;i < nCount;i++){
+			varValue += ' ';
+		}
+		pwd.value = varValue;
+	}
+	var varStrength = inputctrl.GetPasswordStrength();
+	var varElemID = strID + "_Strength";
+	var varStrengthElem = document.getElementById(varElemID);	
+	if(varStrength == 0){
+		varStrengthElem.value = "低";
+	}else if(varStrength == 1){
+		varStrengthElem.value = "中";
+	}else if(varStrength == 2){
+		varStrengthElem.value = "高";
+	}else if(varStrength == 3){
+		varStrengthElem.value = "较高";
+	}
+}
+</script>
+
+</head>
+<body onload="init()" >
+	
+	<table border="0" align="center"> 
+	<tr > 
+		<td colspan="2">
+		<p align="center"><span>登录示例</span></p>
+		</td >
+	</tr>  
+	<tr > 
+		<td colspan="2">
+			<button onclick="WriteLog(allWebSafeInputCtl.GetPasswordStrength())">密码强度</button>
+			<button onclick="GetPasswordValue()">获取密码密文</button>
+			<button onclick="DecryptPwdValue()">解密密码密文</button>
+		</td >
+	</tr> 
+		<tr > 
+		<td colspan="2">
+			<button onclick="allWebSafeInputCtl.Clear()">清空</button>
+			<button onclick="WriteLog(allWebSafeInputCtl.GetPasswordHash())">密码摘要</button>
+			<button onclick="WriteLog(allWebSafeInputCtl.GetPasswordLength())">密码长度</button>
+		</td >
+	</tr> 
+       <tr > 
+			<td >
+			密码:
+			</td >
+			<td >
+				<input type="password" id="allWebSafeInputCtl" style="width: 200px;height: 50px;font-size:30px;" ></input>
+				<input type="text " id="allWebSafeInputCtl_Strength" style="width: 36px;height: 50px;font-size:14px;border:none" ></input>
+			</td>
+       </tr>  
+		<tr > 
+		<td colspan="2">
+			<textarea id="log" style="width: 240px;height:200px;font-size:14px;" ></textarea>
+		</td >
+	</tr> 	   
+    </table>
+</body>
+</html>
+       
+        

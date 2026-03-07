@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>套红模板选择</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel='stylesheet' type='text/css' href='../test.css'>
+<script language="javascript">
+  function CheckValue(theForm){
+	if (window.opener) {
+				 var data = {
+					cmd: "templateCmd",
+					url:theForm.WordList.value
+				 }
+                window.opener.postMessage(JSON.stringify(data));
+				window.close();
+            } else {
+                alert("window.opener is null");
+    }
+    return;
+  }
+</SCRIPT>
+</head>
+<body bgcolor="menu">
+<form name="iForm">
+<table border=0  cellspacing='0' cellpadding='0' width=100% height=100% align="center" >
+<tr>
+<td align="center">
+  <table border=0  cellspacing='0' cellpadding='0' style="font:'宋体';font-size:12px">
+  <tr>
+    <td height="35" nowrap>请选择需要套红的模版名称：</td>
+  </tr>
+  <tr>
+    <td height="35" align="center"  nowrap>
+      <select name=WordList style='width:240 px;'>
+        <option value='http://127.0.0.1:6651/Template/Template_1.doc'>模板一</option>
+        <option value='http://127.0.0.1:6651/Template/Template_2.doc'>模板二</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td height="35" style="color:#FF0000" nowrap>模板文件可以来自Document目录中，也可以从数据库中读取。</td>
+  </tr>
+  </table>
+</td>
+</tr>
+<tr>
+<td align=center>
+<input type=button value="  确定  " onClick="CheckValue(iForm);">
+<input type=button value="  取消  " onClick="window.close();">
+</td>
+</tr>
+</table>
+</form>
+</body>
+</html>

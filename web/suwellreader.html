@@ -1,11 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  <title>allWebPlugin + SuwellReader 中间件示例程序</title>
- <meta http-equiv="X-UA-Compatible" content="IE=9" />
  <script type="text/javascript" src="leftNav/jquery.min.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
  <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
  <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
  <script type="text/javascript">
@@ -189,7 +188,12 @@ function init(){
 	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
 	var installPackageVersion = "2.0.0.28";	
 	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
-		awp_CreatePlugin("suwellReader","{C7F277DC-6C47-AB2C-FB6A-070DC8BE7533}");
+		//awp_CreatePlugin("suwellReader","{C7F277DC-6C47-AB2C-FB6A-070DC8BE7533}");
+		//8856F961-340A-11D0-A96B-00C04FD705A2
+		//awp_CreatePlugin("suwellReader","{8856F961-340A-11D0-A96B-00C04FD705A2}");
+		//suwellReader.Navigate2("www.baidu.com");
+		awp_CreateWebBrowser("www.baidu.com",document.cookie);
+		//awp_CreateWebBrowser("https://demo.kinggrid.com/iWebPDF2018.jsp.mysql/DocumentEdit.jsp?UserName=%25E4%25BD%2593%25E9%25AA%258C%25E7%2594%25A8%25E6%2588%25B728&Subject=PDF%25E6%25BC%2594%25E7%25A4%25BA%25E4%25B8%25BB%25E9%25A2%2598202508141030&RecordID=1755138631182",document.cookie);
 	}
 }
  </script>
@@ -294,7 +298,7 @@ function init(){
  <!-- end showList -->
   
  <!-- footer -->
- <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	QQ：78418227   微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开  微信：allwebplugin  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
  <!-- end footer --> 
 </table>
 </body> 

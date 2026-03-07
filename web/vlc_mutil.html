@@ -1,11 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 	<title>allWebPlugin + VLC ActiveX中间件示例程序</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
-	<script type="text/javascript" src="./js/allWebPlugin.Common.v2.0.0.28.js"></script>
-	<script type="text/javascript" src="./js/allWebPlugin.UI.v2.0.0.28.js"></script>
-	<script type="text/javascript" src="./js/allWebPlugin.Main.v2.0.0.28.js"></script>
+	<script type="text/javascript" src="./js/allWebPlugin.Common.v2.0.0.62.js"></script>
+	<script type="text/javascript" src="./js/allWebPlugin.UI.v2.0.0.62.js"></script>
+	<script type="text/javascript" src="./js/allWebPlugin.Main.v2.0.0.62.js"></script>
 	<script language="javascript">
 	var itemId;  // 播放列表中播放节目的id
 	var vlcSound; // vlc音量大小（初始化默认为50）
@@ -45,7 +44,7 @@
 	
 	function init() {
 		var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
-		var installPackageVersion = "2.0.0.28";	
+		var installPackageVersion = "2.0.30.0";	
 		if(awp_IsInstall(installPackageVersion,installPackageUrl)){
 			awp_CreatePlugin("vlcPlugin0","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");
 			awp_CreatePlugin("vlcPlugin1","{9BE31822-FDAD-461B-AD51-BE1D1C159921}");

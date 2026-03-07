@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "allWebPlugin.IE",
+    "version": "2.0.66",
+    "description": "__MSG_description__",
+	"default_locale": "zh_CN",
+    "action": {
+        "default_icon": {
+            "16": "img/icon.png",
+            "48": "img/icon.png",
+            "128": "img/icon.png"
+        }
+    },
+    "icons": {
+        "16": "img/icon.png",
+        "48": "img/icon.png",
+        "128": "img/icon.png"
+    },
+    "background": {
+        "service_worker": "js/background.js"
+    },
+	"content_scripts": 
+	[
+		{
+			"all_frames": false,
+			"matches": ["<all_urls>"],
+			"js": ["js/content.js"],
+			"run_at": "document_end"
+		}
+	],
+	"web_accessible_resources": [
+	{
+      "resources": ["js/allWebPlugin.Main.js"],
+      "matches": ["<all_urls>"]
+    }],
+	"host_permissions": [
+		"<all_urls>"
+	],
+    "permissions":
+    [
+        "activeTab",
+		"scripting",
+		"cookies",
+		"tabs"
+    ]
+}

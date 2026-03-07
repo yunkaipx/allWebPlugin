@@ -1,11 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  <title>allWebPlugin + VLC ActiveX中间件示例程序</title>
- <meta http-equiv="X-UA-Compatible" content="IE=9" />
  <script type="text/javascript" src="leftNav/jquery.min.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
  <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
  <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
  <script type="text/javascript">
@@ -51,14 +50,80 @@ function checkVedioStatus(){
 }
 
 // 实时检测系统时间，计算视频的播放时长（典型的秒表功能）
+var dx = 10;
+var dy = 10;
+var marqueeEnable = false;
 function checkTime(){
  if(isPlaying==1){
-  setTimeout("checkTime();",50);
-  var temp_time = parseInt((new Date().getTime() - then_time)/1000);
-  document.getElementById("current_video_time").value = parseTime(temp_time);
+	setTimeout("checkTime();",50);
+	var temp_time = parseInt((new Date().getTime() - then_time)/1000);
+	document.getElementById("current_video_time").value = parseTime(temp_time);
+	
+	if(marqueeEnable){
+		var video = vlcPlugin.video();
+		if(video){
+			var marquee = video.marquee();
+			var x = marquee.x();
+			var y = marquee.y();
+			if(x <= 0){
+				dx = 10;
+			}
+			if(x >= (video.width() * 3 /4)){
+				dx = -10;
+			}
+			if(y <= 0){
+				dy = 10;
+			}
+			if(y > (video.height() - 60)){
+				dy = -10;
+			}
+			x = x + dx;
+			y = y + dy;
+			marquee.move(x,y);
+		}
+	}
  }
 }
- 
+function watermark(enable){
+	var video = vlcPlugin.video();
+	marquee = video.marquee();
+	if(enable){
+		marquee.enable();
+		marqueeEnable = true;
+	}else{
+		marquee.disable();
+	}
+}
+
+function watermarkLogo(enable){
+	var video = vlcPlugin.video();
+	//展示图片水印
+	var logo = video.logo();
+	if(enable)
+	logo.enable();
+		else
+	logo.disable();
+}
+
+function snapshot(){
+	var video = vlcPlugin.video();
+	//获取vlc截图base64图片流
+	var imageb64 = video.takeSnapshot2B64();
+	var bimage = atob(imageb64);
+	var byteNumbers = new Uint8Array(bimage.length);
+	  for (var i = 0; i < bimage.length; i++) {
+		byteNumbers[i] = bimage.charCodeAt(i);
+	  }  
+    var blob = new Blob([byteNumbers], { type: "image/jpg" });
+	// 创建一个隐藏的 <a> 元素
+	var link = document.createElement("a");
+	var url = URL.createObjectURL(blob);
+	link.href = url;
+	link.download = "vlc_snapshot.jpg"; // 设置下载文件名
+	document.body.appendChild(link); // 将链接添加到页面
+	link.click(); // 触发下载
+	document.body.removeChild(link); // 下载完成后移除链接
+}
  // 改变播放地址
 function changeNewBeginTime(){
 	// vlcPlugin.input.time 获取当前播放时间（毫秒）/也可重设当前播放时间点
@@ -206,6 +271,27 @@ function init(){
 			vlcPlugin.AutoPlay = true;
 			vlcPlugin.volume = 50;
 			
+			var video = vlcPlugin.video();
+			if(video){
+				//展示图片水印
+				var logo = video.logo();
+				video.logo().file("D:\\11.png");//图片位置
+				video.logo().enable();
+				//video.logo().x = 10;
+				//video.logo().y = 10;
+				video.logo().opacity = 100;
+				video.logo().move(30,30);
+				
+				var marquee = video.marquee();
+				marquee.text = "allWebPlugin中间件";	
+				marquee.color = 0x00ffefff;
+				marquee.opacity = 128;
+				//marquee.x = 150;
+				//marquee.y = 150;
+				marquee.move(150,150);
+				marquee.disable();
+			}
+			
 			var playlist = vlcPlugin.playlist();
 			if(playlist)
 			{
@@ -215,7 +301,9 @@ function init(){
 				playlist.playItem(itemId);
 				playlist.play();
 			}
-			
+			// 获取VLC当前音量
+			vlcSound = vlcPlugin.volume();
+			vlcPlugin.audio().mute = false;//打开声音			
 			// 获取VLC当前音量
 			vlcSound = vlcPlugin.volume();
 			// 设置VLC音量值
@@ -255,6 +343,11 @@ function init(){
 			<input type="button" value=" 减少音量 "  onclick="soundChange(-10);">  
 			<input type="button" value=" 增大音量 "  onclick="soundChange(10);">  
 			<input type="button" value=" 全    屏 "  onclick="screenFull();">
+			<input type="button" value=" 文本水印 "  onclick="watermark(true);">
+			<input type="button" value=" 关闭文本水印 "  onclick="watermark(false);">
+			<input type="button" value=" logo水印 "  onclick="watermarkLogo(true);">
+			<input type="button" value=" 关闭Logo水印 "  onclick="watermarkLogo(false);">
+			<input type="button" value=" 截图 "  onclick="snapshot();">
 
 			<font color="red" size="2">音量：</font><input type="text" id="vlc_sound" style="width: 40px;color: blue">
 			<br>
@@ -279,7 +372,7 @@ function init(){
  
   
  <!-- footer -->
- <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	QQ：78418227   微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	微信：allwebplugin  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
  <!-- end footer --> 
 </table>
 </body> 

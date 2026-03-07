@@ -28,13 +28,13 @@
             color: #FF0000;
         }
    </style>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
 <script language="javascript" type="text/javascript">
 function init(){   
 	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
-	var installPackageVersion = "2.0.0.28";	
+	var installPackageVersion = "2.0.30.0";	
 	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
 		awp_CreatePlugin("SWPlayAPI","{410B702D-FCFC-46B7-A954-E876C84AE4C0}");
 		if(SWPlayAPI){
@@ -58,7 +58,7 @@ function openFile()
 {
 	if(SWPlayAPI){
 		var pluginUtilityObj = awp_getPluginUtility();
-			pluginUtilityObj.GetLocalOpenDialog("svg文件(*.svg);;所有文件(*.*)").then(function(varFile){
+			pluginUtilityObj.GetLocalOpenDialog("smg文件(*.smg);;所有文件(*.*)").then(function(varFile){
 				console.log(varFile);
 				if(varFile != "")
 					SWPlayAPI.Password = "";
@@ -77,11 +77,11 @@ function openWebFile()
 		var pluginUtilityObj = awp_getPluginUtility();
 		var httpclientObj = awp_getHttpClient();
 		httpclientObj.Clear();
-		if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test.jt", false)) {
+		if (httpclientObj.Open(0, "https://local.zsignyun.com:6652/doc/test.smg", false)) {
 			httpclientObj.Send().then(function(data){
 				if (httpclientObj.GetStatus() == 200) {
 					var varTempPath = pluginUtilityObj.GetTempPath();
-					var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".jt";
+					var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".smg";
 					httpclientObj.ResponseSaveToFile(varFile);
 					SWPlayAPI.Open(varFile);
 				}

@@ -1,12 +1,11 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  <title>金格科技-iWebPDF在线管理中间件示例程序</title>
- <meta http-equiv="X-UA-Compatible" content="IE=9" />
  <script type="text/javascript" src="leftNav/jquery.min.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script> 
- <link rel='stylesheet' type='text/css' href='css/iWebProduct.css' />
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script> 
+ <link rel='stylesheet' type='text/css' href='css/iWebproduct.css' />
   <script type="text/javascript">
 	var url = 'http://demo.kinggrid.com:80/iWebPDF2018.jsp.mysql/';
 	var mRecordID = '1712543408607'
@@ -57,7 +56,7 @@ var MenuId;
 
 function init(){
 	var installPackageUrl = "http://127.0.0.1:6651/install/allwebPlugin_x86_v2.0.1.16_20240806.exe";
-	var installPackageVersion = "2.0.0.28";	
+	var installPackageVersion = "2.0.0.30";	
 	if(awp_IsInstall(installPackageVersion,installPackageUrl)){
 		awp_CreatePlugin("iWebPDF","{39E08D82-C8AC-4934-BE07-F6E816FD47A1}");
 	}
@@ -102,6 +101,7 @@ function OpenLocalFile(){
 		if(data != "")
 			iWebPDF.WebOpenLocalFile(data); 
 	});
+	//alert(iWebPDF.WebOpenUrlFile("http://127.0.0.1:6651/doc/20253716394471.pdf"));
 }
 
 function Close(){

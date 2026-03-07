@@ -1,13 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
  <title>allWebPlugin + allWebOffice中间件示例程序</title>
- <meta http-equiv="X-UA-Compatible" content="IE=9" />
  <script type="text/javascript" src="leftNav/jquery.min.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.28.js"></script>
- <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.28.js"></script> 
- <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.28.js"></script>   
+ <script type="text/javascript" src="js/allWebPlugin.Common.v2.0.0.62.js"></script>
+ <script type="text/javascript" src="js/allWebPlugin.UI.v2.0.0.62.js"></script> 
+ <script type="text/javascript" src="js/allWebPlugin.Main.v2.0.0.62.js"></script>   
  <script type="text/javascript" src="leftNav/allWebPlugin.LeftUI.js"></script>
  <link rel='stylesheet' type='text/css' href='css/allWebPlugin.LeftUI.css' />
  <script type="text/javascript">
@@ -118,7 +117,7 @@ function openFileFromUrl(){
 
 function OpenLocalFile(){
 	var pluginUtilityObj = awp_getPluginUtility();
-	pluginUtilityObj.GetLocalOpenDialog("docx文件(*.docx;*.doc);;excel文件(*.xls;*.xlsx);;所有文件(*.*)").then(function(varFile){
+	pluginUtilityObj.GetLocalOpenDialogV2("docx文件(*.docx;*.doc);;excel文件(*.xls;*.xlsx);;所有文件(*.*)","allWebOffice").then(function(varFile){
 		console.log(varFile);
 		if(varFile != "")
 			allWebOfficeAx.Open_Asyn(varFile).then(function(nOpen){
@@ -228,6 +227,72 @@ function WebInsertVBA(){
 		  alert(e.message);
 		}
 }
+
+
+//用户模板套红
+function WebUseTemplate(){
+	if(allWebOfficeAx == null)
+		return;
+	try {
+			var doc = allWebOfficeAx.ActiveDocument();
+			var varSaveFormat = doc ? doc.SaveFormat() : undefined;//word属性
+			if(varSaveFormat === undefined){//非word 
+				alert("请打开Word文档");
+				return;
+			}
+		}
+		catch(e){
+			alert(e.message);
+			return;
+		}
+	var mDialogUrl = "allWebOffice_TemplateForm.htm";
+	window.open(mDialogUrl,'模板列表选择',
+					'height=140,width=340,top=350,left=400,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no,depended =yes,z-look =true');
+	window.addEventListener('message', receiveMessage, false); // 监听消息事件
+}
+
+function receiveMessage(event) {
+	 var msg = JSON.parse(event.data);
+	if (msg.cmd === "templateCmd") {//msg.url 返回模板文件的url路径。
+		console.log("template file:" + msg.url); // 处理接收到的消息。
+		
+		var pluginUtilityObj = awp_getPluginUtility();
+		var httpclientObj = awp_getHttpClient();
+		httpclientObj.Clear();
+		if (httpclientObj.Open(0, msg.url, false)) {
+				httpclientObj.Send().then(function(data){
+				if (httpclientObj.GetStatus() == 200) {
+					//保存文件
+					var varTempPath = pluginUtilityObj.GetTempPath();
+					var varContentFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".doc";
+					allWebOfficeAx.DeleteAfterClose = false;
+					allWebOfficeAx.AcceptAllRevisions();
+					allWebOfficeAx.Save(varContentFile,0,false);
+					allWebOfficeAx.Close(0);
+
+					var varFile = pluginUtilityObj.GetTempFileName(varTempPath,"zso") + ".docx";
+					httpclientObj.ResponseSaveToFile(varFile);
+					allWebOfficeAx.Open(varFile);
+					allWebOfficeAx.DeleteAfterClose = true;
+					//文件套红
+					VBAInsertFile("Content",varContentFile);
+					//删除内容文件
+					pluginUtilityObj.DeleteFile(varContentFile);
+				}
+				else{
+					var httpStatus = httpclientObj.GetStatus();
+					if(httpclientObj.GetStatus() == 0)
+					{
+						alert("LoadFile Error:" + httpclientObj.GetErrorText());
+					}else{
+						alert("LoadFile Status:" + httpStatus + ",请确保安装目录下web/Template目录存在文件");
+					}
+				}
+				httpclientObj.Close();
+			});	
+		}
+	}
+ }
 
 /*
 *打开远程大文档
@@ -356,7 +421,7 @@ function OpenPrintDlg(){
 
 function SaveAs(){
 	var pluginUtilityObj = awp_getPluginUtility();
-	pluginUtilityObj.GetLocalSaveDialog("docx文件(*.docx;*.doc);;excel文件(*.xlsx)").then(function(varFile){
+	pluginUtilityObj.GetLocalSaveDialogV2("docx文件(*.docx;*.doc);;excel文件(*.xlsx)","allWebOffice").then(function(varFile){
 		allWebOfficeAx.Save_Asyn(varFile,0,false).then(function(data){
 			//ShowError(data);
 		});	
@@ -831,6 +896,7 @@ function init(){
 					<tr><td class="dot-size"><a onclick="SaveAsPDF()">保存PDF文档</a></td></tr>
 					<tr><td class="dot-size"><a onclick="OpenPrintDlg()">打印</a></td></tr>
 					<tr><td class="dot-size"><a onclick="WebInsertVBA()">VBA套红(Word文档)</a></td></tr>
+					<tr><td class="dot-size"><a onclick="WebUseTemplate()">模板套红</a></td></tr>
 					<tr><td class="dot-size"><a onclick="ShowRevisions(true)">显示痕迹(Word文档)</a></td></tr>
 					<tr><td class="dot-size"><a onclick="ShowRevisions(false)">隐藏痕迹(Word文档)</a></td></tr>
 					<tr><td class="dot-size"><a onclick="AcceptAllRevisions()">接受痕迹(Word文档)</a></td></tr>				
@@ -955,7 +1021,7 @@ function init(){
  <!-- end showList -->
   
  <!-- footer -->
- <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	微信：yunkaipx  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
+ <tr ><td colspan="2" height="30px"  class="footer"><table><tr><td align="center">作者：郭云开 	微信：allwebplugin  邮箱：yunkaipx@126.com</td></tr></table></td></tr>
  <!-- end footer --> 
 </table>
 </body> 

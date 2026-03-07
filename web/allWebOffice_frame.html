@@ -1,14 +1,14 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 </head>
 <title>allWebOffice控件中间件示例程序</title>
 <style>
   .floating-iframe-container {
     position: fixed; /* 固定定位，使元素悬浮 */
-    top: 10%; /* 距离页面顶部10% */
-    left: 10%; /* 距离页面左侧10% */
-    width: 80%; /* 宽度设置为80% */
-    height: 80%; /* 高度自动调整 */
+    top: 0; /* 距离页面顶部10% */
+    left: 0; /* 距离页面左侧10% */
+    width: 18%; /* 宽度设置为80% */
+    height: 30%; /* 高度自动调整 */
     border: 2px solid #000; /* 添加边框 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
     background-color: #fff; /* 背景颜色 */
@@ -26,8 +26,8 @@
 </script>
 <!--canvas id="c" width="100" height="100"></canvas!-->
 <div class="floating-iframe-container">
-  <iframe class="floating-iframe" id="allWebOfficeFrame_f" src="allWebOffice2.html"></iframe>
+  <iframe class="floating-iframe" id="allWebOfficeFrame_f" src="allWebOffice2.html"  style="border:none;"></iframe>
 </div>
-<iframe id="allWebOfficeFrame_d" src="allWebOffice1.html" width="100%" height="100%"></iframe>
+<iframe id="allWebOfficeFrame_d" src="allWebOffice1.html" width="100%" height="100%"  style="border:none;"></iframe>
 </body>
 </html>
